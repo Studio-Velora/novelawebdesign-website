@@ -88,13 +88,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 14 dagen live.",
+          "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 1 week live.",
       },
       { property: "og:title", content: "Novela Webdesign — Digitaal design & development studio" },
       {
         property: "og:description",
         content:
-          "Snelle websites en webshops met SEO inbegrepen. Vaste prijzen, persoonlijk contact, in 14 dagen live.",
+          "Snelle websites en webshops met SEO inbegrepen. Vaste prijzen, persoonlijk contact, in 1 week live.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -124,7 +124,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "Novela Webdesign",
-          "description": "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 14 dagen live.",
+          "description": "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 1 week live.",
           "url": "https://www.novelawebdesign.nl",
           "telephone": "+31611277632",
           "email": "info@novelawebdesign.nl",

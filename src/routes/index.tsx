@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Snelle websites en webshops voor ondernemers. Vaste prijzen, SEO inbegrepen, in 14 dagen live.",
+          "Snelle websites en webshops voor ondernemers. Vaste prijzen, SEO inbegrepen, in 1 week live.",
       },
       { property: "og:title", content: "Novela Webdesign — Digitaal design & development studio" },
       {

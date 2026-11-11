@@ -82,28 +82,28 @@ export const PROCESS = [
   },
   {
     n: "03",
-    day: "Dag 3–6",
+    day: "Dag 2–3",
     title: "Ontwerp & preview",
     body:
       "Je ziet exact hoe de site eruit komt te zien voordat er code wordt geschreven.",
   },
   {
     n: "04",
-    day: "Dag 7–11",
+    day: "Dag 3–5",
     title: "Bouw & SEO",
     body:
       "Technisch gebouwd: snel, mobiel-vriendelijk en SEO-klaar. Hosting en mail zetten wij op.",
   },
   {
     n: "05",
-    day: "Dag 12–13",
+    day: "Dag 5–6",
     title: "Revisies",
     body:
       "Twee volledige revisierondes inbegrepen. Wij finetunen tot het klopt.",
   },
   {
     n: "06",
-    day: "Dag 14",
+    day: "Dag 7",
     title: "Live & overdracht",
     body:
       "De site gaat live met SSL, domein en Search Console. Aansluitend 30 dagen gratis support.",
@@ -144,11 +144,11 @@ export const PROMISES = [
 export const FAQ = [
   {
     q: "Hoe lang duurt het bouwen van een website?",
-    a: "Een website staat gebruikelijk binnen 14 dagen live, gerekend vanaf je akkoord en de aanlevering van je content.",
+    a: "Een website staat gebruikelijk binnen 1 week live, gerekend vanaf je akkoord en de aanlevering van je content.",
   },
   {
     q: "Wat kost de hosting?",
-    a: "Wij zetten de hosting gratis voor je op. De hostingkosten zelf (gemiddeld €5–€15/maand) lopen op jouw naam, zodat je altijd eigenaar blijft.",
+    a: "Hosting, SSL en back-ups zitten in elk onderhoudsabonnement, vanaf €30 per maand. Je domein loopt op jouw naam, zodat je altijd eigenaar blijft.",
   },
   {
     q: "Krijg ik ook een zakelijk e-mailadres?",
