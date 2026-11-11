@@ -11,6 +11,7 @@ export function CookieBanner() {
 
   const accept = () => {
     localStorage.setItem("sv_cookie_consent", "all");
+    (window as Window & { svLoadAnalytics?: () => void }).svLoadAnalytics?.();
     setVisible(false);
   };
 

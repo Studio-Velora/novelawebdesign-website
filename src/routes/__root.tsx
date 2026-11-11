@@ -99,10 +99,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Novela Webdesign — Digitaal design & development studio" },
-      { name: "description", content: "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities." },
-      { property: "og:description", content: "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities." },
-      { name: "twitter:description", content: "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a4220ae-413f-4dc8-b7a6-ef86ba57ac9e/id-preview-2700496c--a4b518c4-718f-445e-b842-1a86bc0abe27.lovable.app-1781131761725.png" },
       { property: "og:image", content: "https://www.novelawebdesign.nl/og-image.png" },
       { name: "twitter:image", content: "https://www.novelawebdesign.nl/og-image.png" },
     ],
@@ -140,11 +136,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         }),
       },
       {
-        src: "https://www.googletagmanager.com/gtag/js?id=G-7B61B4GNTB",
-        async: true,
-      },
-      {
-        children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());var consent=localStorage.getItem('sv_cookie_consent');if(consent==='all'){gtag('config','G-7B61B4GNTB');}`,
+        // gtag.js wordt pas geladen na toestemming (sv_cookie_consent === 'all'):
+        // direct bij paginalaad als er al toestemming is, of via
+        // window.svLoadAnalytics() vanuit de CookieBanner na "Accepteren".
+        children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.svLoadAnalytics=function(){if(window.svAnalyticsLoaded)return;window.svAnalyticsLoaded=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-7B61B4GNTB';document.head.appendChild(s);gtag('js',new Date());gtag('config','G-7B61B4GNTB');};if(localStorage.getItem('sv_cookie_consent')==='all'){window.svLoadAnalytics();}`,
       },
     ],
   }),
