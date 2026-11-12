@@ -10,6 +10,7 @@ import { FaqList } from "@/components/site/FaqList";
 import { Reveal, RevealWords } from "@/components/site/Reveal";
 import { SectionLabel, ParallaxY } from "@/components/site/Section";
 import { Magnetic } from "@/components/site/Magnetic";
+import { FactsStrip, ScrollStatement, SpotlightCard } from "@/components/site/Wow";
 import { AUDIENCES, PROMISES, SEO_STEPS, CONTACT } from "@/lib/site-content";
 
 export const Route = createFileRoute("/")({
@@ -32,7 +33,16 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const PARTNERS = ["Stripe", "iDEAL", "Mollie", "Shopify", "Wero", "Google", "Search Console", "Cloudflare"];
+const PARTNERS = [
+  "Stripe",
+  "iDEAL",
+  "Mollie",
+  "Shopify",
+  "Wero",
+  "Google",
+  "Search Console",
+  "Cloudflare",
+];
 
 function Home() {
   return (
@@ -54,6 +64,9 @@ function Home() {
         />
       </section>
 
+      <FactsStrip />
+      <ScrollStatement />
+
       {/* Over ons */}
       <section className="relative bg-background py-32 md:py-48">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-12">
@@ -61,8 +74,7 @@ function Home() {
             <div className="md:sticky md:top-32 md:self-start">
               <SectionLabel>Over ons</SectionLabel>
               <h2 className="mt-8 font-display text-5xl leading-[1.05] text-ink md:text-7xl xl:text-8xl">
-                <RevealWords text="Gebouwd voor" />{" "}
-                <br />
+                <RevealWords text="Gebouwd voor" /> <br />
                 <span className="italic">
                   <RevealWords text="lokale" wordClassName="text-accent" />
                 </span>{" "}
@@ -72,16 +84,16 @@ function Home() {
             <div className="space-y-8">
               <Reveal>
                 <p className="text-lg text-ink-soft md:text-xl">
-                  Novela Webdesign is een digitaal design & development studio. Geen
-                  groot bedrijf met dure tussenpersonen, maar rechtstreeks contact
-                  met degene die jouw website bouwt.
+                  Novela Webdesign is een digitaal design & development studio. Geen groot bedrijf
+                  met dure tussenpersonen, maar rechtstreeks contact met degene die jouw website
+                  bouwt.
                 </p>
               </Reveal>
               <Reveal delay={0.1}>
                 <p className="text-lg text-ink-soft md:text-xl">
-                  Wij bouwen websites en webshops die er niet alleen strak uitzien,
-                  maar ook echt werken: snel laden, goed gevonden op Google, en
-                  ontworpen om bezoekers om te zetten in klanten.
+                  Wij bouwen websites en webshops die er niet alleen strak uitzien, maar ook echt
+                  werken: snel laden, goed gevonden op Google, en ontworpen om bezoekers om te
+                  zetten in klanten.
                 </p>
               </Reveal>
               <Reveal delay={0.2}>
@@ -119,14 +131,13 @@ function Home() {
             <div>
               <SectionLabel>Mogelijkheden</SectionLabel>
               <h2 className="mt-6 font-display text-5xl leading-[1.05] text-ink md:text-7xl xl:text-8xl">
-                Alles mogelijk.{" "}
-                <br />
+                Alles mogelijk. <br />
                 <span className="italic text-accent">Niets te veel.</span>
               </h2>
             </div>
             <p className="max-w-md text-ink-soft">
-              Van een eenvoudige contactpagina tot een volledig klantportaal met AI.
-              Een greep uit wat wij bouwen.
+              Van een eenvoudige contactpagina tot een volledig klantportaal met AI. Een greep uit
+              wat wij bouwen.
             </p>
           </div>
         </div>
@@ -159,31 +170,38 @@ function Home() {
             <div className="min-w-0 md:sticky md:top-32 md:self-start">
               <SectionLabel>SEO · GEO · AEO</SectionLabel>
               <h2 className="mt-8 font-display text-4xl leading-[1.05] text-ink sm:text-5xl md:text-7xl xl:text-8xl">
-                Gevonden worden{" "}
-                <br />
+                Gevonden worden <br />
                 <span className="italic text-accent">op Google.</span>
               </h2>
               <p className="mt-6 max-w-md text-ink-soft">
-                Een strakke website zonder bezoekers heeft weinig zin. Met SEO én GEO
-                zorgen wij dat klanten je vinden wanneer ze zoeken naar wat jij
-                aanbiedt — op Google én in AI-zoekmachines zoals ChatGPT.
+                Een strakke website zonder bezoekers heeft weinig zin. Met SEO én GEO zorgen wij dat
+                klanten je vinden wanneer ze zoeken naar wat jij aanbiedt — op Google én in
+                AI-zoekmachines zoals ChatGPT.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link to="/seo" className="rounded-full bg-ink px-6 py-3 text-sm text-background hover:bg-accent">
+                <Link
+                  to="/seo"
+                  className="rounded-full bg-ink px-6 py-3 text-sm text-background hover:bg-accent"
+                >
                   Meer over SEO
                 </Link>
               </div>
             </div>
             <div className="min-w-0 space-y-12">
               {SEO_STEPS.map(([n, t, b], i) => (
-                <div key={n} className="relative grid grid-cols-[auto_1fr] items-center gap-5 sm:gap-6">
+                <div
+                  key={n}
+                  className="relative grid grid-cols-[auto_1fr] items-center gap-5 sm:gap-6"
+                >
                   <ParallaxY amount={14 + i * 4}>
                     <div className="w-[1.3em] font-display text-5xl leading-none text-accent/30 sm:w-[1.7em] sm:text-6xl md:text-8xl">
                       {n}
                     </div>
                   </ParallaxY>
                   <Reveal className="min-w-0">
-                    <h3 className="font-display text-2xl leading-tight text-ink [hyphens:auto] md:text-3xl">{t}</h3>
+                    <h3 className="font-display text-2xl leading-tight text-ink [hyphens:auto] md:text-3xl">
+                      {t}
+                    </h3>
                     <p className="mt-2 text-ink-soft">{b}</p>
                   </Reveal>
                 </div>
@@ -199,8 +217,7 @@ function Home() {
           <div className="mb-20">
             <SectionLabel>Werkwijze</SectionLabel>
             <h2 className="mt-6 font-display text-5xl leading-[1.05] text-ink md:text-7xl xl:text-8xl">
-              Van gesprek{" "}
-              <br />
+              Van gesprek <br />
               <span className="italic">tot </span>
               <span className="italic text-accent">live website.</span>
             </h2>
@@ -215,8 +232,7 @@ function Home() {
           <div className="mb-16">
             <SectionLabel>Voor wie</SectionLabel>
             <h2 className="mt-6 font-display text-5xl leading-[1.05] text-ink md:text-7xl xl:text-8xl">
-              Welke bedrijven{" "}
-              <br />
+              Welke bedrijven <br />
               <span className="italic text-accent">helpen wij?</span>
             </h2>
           </div>
@@ -228,20 +244,21 @@ function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
                 transition={{ delay: (i % 4) * 0.06, duration: 0.6 }}
-                className="group relative overflow-hidden rounded-2xl border border-ink/10 bg-background p-6"
+                className="overflow-hidden rounded-2xl border border-ink/10 bg-background transition-colors hover:border-accent/40"
               >
-                <div className="text-xs text-ink-soft">{String(i + 1).padStart(2, "0")}</div>
-                <h3 className="mt-3 font-display text-2xl text-ink">{t}</h3>
-                <p className="mt-2 text-sm text-ink-soft">{b}</p>
-                <div className="pointer-events-none absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-accent/0 blur-2xl transition-all duration-500 group-hover:bg-accent/40" />
+                <SpotlightCard className="p-6">
+                  <div className="text-xs text-ink-soft">{String(i + 1).padStart(2, "0")}</div>
+                  <h3 className="mt-3 font-display text-2xl text-ink">{t}</h3>
+                  <p className="mt-2 text-sm text-ink-soft">{b}</p>
+                </SpotlightCard>
               </motion.div>
             ))}
           </div>
           <Reveal className="mt-12 flex flex-col items-start gap-5 rounded-2xl border border-ink/10 bg-background p-8 md:flex-row md:items-center md:justify-between">
             <p className="max-w-2xl text-lg text-ink-soft">
               <span className="font-semibold text-ink">Staat jouw branche er niet tussen?</span>{" "}
-              Geen zorgen — dit is maar een greep. Of je nu een winkel, praktijk,
-              vereniging of iets compleet anders hebt: wij helpen{" "}
+              Geen zorgen — dit is maar een greep. Of je nu een winkel, praktijk, vereniging of iets
+              compleet anders hebt: wij helpen{" "}
               <span className="font-semibold text-accent">elk</span> bedrijf online groeien.
             </p>
             <Link
@@ -282,11 +299,12 @@ function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
                 transition={{ delay: i * 0.08, duration: 0.7 }}
-                className="group relative overflow-hidden rounded-2xl border border-background/15 p-8"
+                className="overflow-hidden rounded-2xl border border-background/15 transition-colors hover:border-accent/60"
               >
-                <div className="font-display text-2xl">{t}</div>
-                <p className="mt-3 text-sm text-background/70">{b}</p>
-                <div className="pointer-events-none absolute inset-x-0 -bottom-px h-px scale-x-0 bg-accent transition-transform duration-700 group-hover:scale-x-100" />
+                <SpotlightCard dark className="p-8">
+                  <div className="font-display text-2xl">{t}</div>
+                  <p className="mt-3 text-sm text-background/70">{b}</p>
+                </SpotlightCard>
               </motion.div>
             ))}
           </div>
@@ -311,15 +329,17 @@ function Home() {
         <div className="mx-auto max-w-[1600px] px-6 lg:px-12">
           <SectionLabel>Klaar om te beginnen?</SectionLabel>
           <h2 className="mt-6 font-display text-[12vw] leading-[0.95] tracking-tight text-ink md:text-[7vw]">
-            <RevealWords text="Jouw website kan" />{" "}
-            <br />
+            <RevealWords text="Jouw website kan" /> <br />
             <span className="italic">
               <RevealWords text="dit weekend" wordClassName="text-accent" />
             </span>{" "}
             <br />
             <RevealWords text="live zijn." />
           </h2>
-          <Reveal delay={0.3} className="mt-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-4">
+          <Reveal
+            delay={0.3}
+            className="mt-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-4"
+          >
             <Magnetic strength={25}>
               <Link
                 to="/offerte"
@@ -340,21 +360,32 @@ function Home() {
             </Magnetic>
           </Reveal>
 
-          <Reveal delay={0.4} className="mt-16 grid gap-6 border-t border-ink/10 pt-12 md:grid-cols-3">
+          <Reveal
+            delay={0.4}
+            className="mt-16 grid gap-6 border-t border-ink/10 pt-12 md:grid-cols-3"
+          >
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-ink-soft">Bel direct</div>
-              <a href={CONTACT.phoneHref} className="mt-2 block font-display text-2xl text-ink hover:text-accent">
+              <a
+                href={CONTACT.phoneHref}
+                className="mt-2 block font-display text-2xl text-ink hover:text-accent"
+              >
                 {CONTACT.phone}
               </a>
             </div>
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-ink-soft">E-mail</div>
-              <a href={`mailto:${CONTACT.email}`} className="mt-2 block font-display text-2xl text-ink hover:text-accent">
+              <a
+                href={`mailto:${CONTACT.email}`}
+                className="mt-2 block font-display text-2xl text-ink hover:text-accent"
+              >
                 {CONTACT.email}
               </a>
             </div>
             <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-ink-soft">Beschikbaarheid</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-ink-soft">
+                Beschikbaarheid
+              </div>
               <div className="mt-2 font-display text-2xl text-ink">{CONTACT.hours}</div>
             </div>
           </Reveal>

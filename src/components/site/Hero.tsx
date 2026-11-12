@@ -3,10 +3,9 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Magnetic } from "./Magnetic";
 import { RevealWords } from "./Reveal";
+import { HeroShowcase } from "./HeroShowcase";
 
-const HeroWebGL = lazy(() =>
-  import("./HeroWebGL").then((m) => ({ default: m.HeroWebGL }))
-);
+const HeroWebGL = lazy(() => import("./HeroWebGL").then((m) => ({ default: m.HeroWebGL })));
 
 export function Hero() {
   return (
@@ -17,81 +16,89 @@ export function Hero() {
         <Suspense fallback={null}>
           <HeroWebGL />
         </Suspense>
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
 
       <div className="relative mx-auto flex min-h-[calc(100vh-8rem)] max-w-[1600px] flex-col justify-between px-6 lg:px-12">
-        <div className="pt-12">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-ink-soft"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
-            Welkom bij Novela Webdesign
-          </motion.div>
+        <div className="grid items-center gap-12 pt-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-ink-soft"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              Welkom bij Novela Webdesign
+            </motion.div>
 
-          <h1 className="mt-8 font-display text-[14vw] leading-[1.04] tracking-tight text-ink md:text-[8.5vw] lg:text-[8rem] xl:text-[9rem] 2xl:text-[10rem]">
-            <RevealWords text="Digitaal" />{" "}
-            <br />
-            <span className="italic">
-              <RevealWords text="webdesign" wordClassName="text-accent" />
-            </span>{" "}
-            <br />
-            <RevealWords text="studio." />
-          </h1>
+            <h1 className="mt-8 font-display text-[14vw] leading-[1.04] tracking-tight text-ink md:text-[10vw] lg:text-[6.2rem] xl:text-[7.6rem] 2xl:text-[9rem]">
+              <RevealWords text="Digitaal" /> <br />
+              <span className="italic">
+                <RevealWords text="webdesign" wordClassName="text-accent" />
+              </span>{" "}
+              <br />
+              <RevealWords text="studio." />
+            </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.8 }}
-            className="mt-8 max-w-2xl text-lg text-ink-soft xl:text-xl"
-          >
-            Wij helpen ondernemers en bedrijven schaalbare digitale producten bouwen —
-            met doordacht design en zorgvuldige ontwikkeling.
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1, duration: 0.8 }}
+              className="mt-8 max-w-2xl text-lg text-ink-soft xl:text-xl"
+            >
+              Wij helpen ondernemers en bedrijven schaalbare digitale producten bouwen — met
+              doordacht design en zorgvuldige ontwikkeling.
+            </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.8 }}
-            className="mt-8 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-4"
-          >
-            <Magnetic strength={20}>
-              <Link
-                to="/pakketten"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-ink px-9 py-5 text-base font-semibold text-background"
-              >
-                <span className="absolute inset-0 -translate-y-full bg-accent transition-transform duration-500 group-hover:translate-y-0" />
-                <span className="relative">Bekijk pakketten en prijzen</span>
-                <span className="relative transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </Link>
-            </Magnetic>
-            <Magnetic strength={15}>
-              <Link
-                to="/portfolio"
-                className="rounded-full border border-ink/20 px-9 py-5 text-base font-semibold text-ink transition-colors hover:border-ink hover:bg-ink hover:text-background"
-              >
-                Bekijk ons werk
-              </Link>
-            </Magnetic>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.3, duration: 0.8 }}
+              className="mt-8 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-4"
+            >
+              <Magnetic strength={20}>
+                <Link
+                  to="/pakketten"
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-ink px-9 py-5 text-base font-semibold text-background"
+                >
+                  <span className="absolute inset-0 -translate-y-full bg-accent transition-transform duration-500 group-hover:translate-y-0" />
+                  <span className="relative">Bekijk pakketten en prijzen</span>
+                  <span className="relative transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
+              </Magnetic>
+              <Magnetic strength={15}>
+                <Link
+                  to="/portfolio"
+                  className="rounded-full border border-ink/20 px-9 py-5 text-base font-semibold text-ink transition-colors hover:border-ink hover:bg-ink hover:text-background"
+                >
+                  Bekijk ons werk
+                </Link>
+              </Magnetic>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.45, duration: 0.8 }}
-            className="mt-6 flex items-center gap-2 text-sm text-ink-soft"
-          >
-            <span className="text-accent tracking-tight">★★★★★</span>
-            <span>
-              <strong className="font-semibold text-ink">5.0</strong> op basis van klantbeoordelingen
-            </span>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.45, duration: 0.8 }}
+              className="mt-6 flex items-center gap-2 text-sm text-ink-soft"
+            >
+              <span className="text-accent tracking-tight">★★★★★</span>
+              <span>
+                <strong className="font-semibold text-ink">5.0</strong> op basis van
+                klantbeoordelingen
+              </span>
+            </motion.div>
+          </div>
+
+          <div className="hidden md:block lg:pr-4 xl:pr-10">
+            <HeroShowcase />
+          </div>
         </div>
 
         <motion.div
