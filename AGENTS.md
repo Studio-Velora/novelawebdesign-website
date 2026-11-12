@@ -3,7 +3,7 @@
 <!-- STUDIO-VELORA:BEGIN -->
 ## Project (Studio Velora)
 
-Onze eigen website, novelawebdesign.nl. studiovelora.nl stuurt hierheen door (`vercel.json`). Stack: TanStack Start (React 19, Vite), Tailwind CSS, shadcn/ui; gebouwd met Lovable. Hosting: Vercel (`nitro: { preset: "vercel" }` in `vite.config.ts`). Wordt verhuisd naar Cloudflare, zie taak 01 in `team-taken`.
+Onze eigen website, novelawebdesign.nl. studiovelora.nl stuurt hierheen door (`vercel.json`). Stack: TanStack Start (React 19, Vite), Tailwind CSS, shadcn/ui; gebouwd met Lovable. Hosting: Vercel (`nitro: { preset: "vercel" }` in `vite.config.ts`). Wordt verhuisd naar Cloudflare, zie taak 01 in `systeem-team-taken`.
 
 ### Commando's
 - `bun install`, `bun run dev`, `bun run build`, `bun run lint`
@@ -23,5 +23,5 @@ Onze eigen website, novelawebdesign.nl. studiovelora.nl stuurt hierheen door (`v
 - Grotere wijzigingen in een branch met een PR, niet direct op `main`.
 - Geen API-sleutels, wachtwoorden of tokens in de code; die horen in omgevingsvariabelen.
 - Teksten op de site zijn Nederlands.
-- `netlify.toml` is een oude Netlify-koppeling; opruimen staat als taak 04 in `team-taken`.
+- `netlify.toml` is een oude Netlify-koppeling; opruimen staat als taak 04 in `systeem-team-taken`.
 <!-- STUDIO-VELORA:END -->

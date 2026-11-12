@@ -7,7 +7,7 @@ Onze eigen website, novelawebdesign.nl. studiovelora.nl stuurt hierheen door (`v
 | Soort | Eigen site |
 | Gebouwd met | Lovable, daarna afgewerkt in code |
 | Stack | TanStack Start (React 19, Vite), Tailwind CSS, shadcn/ui |
-| Hosting | Vercel (`nitro: { preset: "vercel" }` in `vite.config.ts`). Wordt verhuisd naar Cloudflare, zie taak 01 in `team-taken`. |
+| Hosting | Vercel (`nitro: { preset: "vercel" }` in `vite.config.ts`). Wordt verhuisd naar Cloudflare, zie taak 01 in `systeem-team-taken`. |
 | Package manager | bun |
 
 ## Lokaal draaien
@@ -25,6 +25,6 @@ Bouwen: `bun run build`.
 - `src/components/`: eigen componenten (`src/components/ui/` zijn standaard shadcn-componenten)
 - `public/`: afbeeldingen en andere statische bestanden
 
-`netlify.toml` is een oude Netlify-koppeling; opruimen staat als taak 04 in `team-taken`.
+`netlify.toml` is een oude Netlify-koppeling; opruimen staat als taak 04 in `systeem-team-taken`.
 
-Handboek voor het hele bouwproces: repo `Studio-Velora/website-bouw-proces`. Openstaande teamtaken: `Studio-Velora/team-taken`.
+Handboek voor het hele bouwproces: repo `Studio-Velora/systeem-website-bouw-proces`. Openstaande teamtaken: `Studio-Velora/systeem-team-taken`.
