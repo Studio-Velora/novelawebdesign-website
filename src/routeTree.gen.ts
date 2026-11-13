@@ -19,6 +19,7 @@ import { Route as MogelijkhedenRouteImport } from './routes/mogelijkheden'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WowLevelRouteImport } from './routes/wow.$level'
 
 const SeoRoute = SeoRouteImport.update({
   id: '/seo',
@@ -70,6 +71,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WowLevelRoute = WowLevelRouteImport.update({
+  id: '/wow/$level',
+  path: '/wow/$level',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/privacybeleid': typeof PrivacybeleidRoute
   '/referral-voorwaarden': typeof ReferralVoorwaardenRoute
   '/seo': typeof SeoRoute
+  '/wow/$level': typeof WowLevelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/privacybeleid': typeof PrivacybeleidRoute
   '/referral-voorwaarden': typeof ReferralVoorwaardenRoute
   '/seo': typeof SeoRoute
+  '/wow/$level': typeof WowLevelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/privacybeleid': typeof PrivacybeleidRoute
   '/referral-voorwaarden': typeof ReferralVoorwaardenRoute
   '/seo': typeof SeoRoute
+  '/wow/$level': typeof WowLevelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/privacybeleid'
     | '/referral-voorwaarden'
     | '/seo'
+    | '/wow/$level'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/privacybeleid'
     | '/referral-voorwaarden'
     | '/seo'
+    | '/wow/$level'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/privacybeleid'
     | '/referral-voorwaarden'
     | '/seo'
+    | '/wow/$level'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   PrivacybeleidRoute: typeof PrivacybeleidRoute
   ReferralVoorwaardenRoute: typeof ReferralVoorwaardenRoute
   SeoRoute: typeof SeoRoute
+  WowLevelRoute: typeof WowLevelRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wow/$level': {
+      id: '/wow/$level'
+      path: '/wow/$level'
+      fullPath: '/wow/$level'
+      preLoaderRoute: typeof WowLevelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacybeleidRoute: PrivacybeleidRoute,
   ReferralVoorwaardenRoute: ReferralVoorwaardenRoute,
   SeoRoute: SeoRoute,
+  WowLevelRoute: WowLevelRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

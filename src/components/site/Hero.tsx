@@ -4,17 +4,19 @@ import { motion } from "framer-motion";
 import { Magnetic } from "./Magnetic";
 import { RevealWords } from "./Reveal";
 import { HeroShowcase } from "./HeroShowcase";
+import { RepelText } from "./RepelText";
 
+const Hero3D = lazy(() => import("./Hero3D").then((m) => ({ default: m.Hero3D })));
 const HeroWebGL = lazy(() => import("./HeroWebGL").then((m) => ({ default: m.HeroWebGL })));
 
-export function Hero() {
+export function Hero({ level = 1 }: { level?: number }) {
   return (
     <section className="relative min-h-screen overflow-hidden pt-32">
       {/* WebGL backdrop */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-background" />
         <Suspense fallback={null}>
-          <HeroWebGL />
+          <HeroWebGL level={level} />
         </Suspense>
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
@@ -36,12 +38,25 @@ export function Hero() {
             </motion.div>
 
             <h1 className="mt-8 font-display text-[14vw] leading-[1.04] tracking-tight text-ink md:text-[10vw] lg:text-[6.2rem] xl:text-[7.6rem] 2xl:text-[9rem]">
-              <RevealWords text="Digitaal" /> <br />
-              <span className="italic">
-                <RevealWords text="webdesign" wordClassName="text-accent" />
-              </span>{" "}
-              <br />
-              <RevealWords text="studio." />
+              {level >= 4 ? (
+                <>
+                  <RepelText text="Digitaal" delay={0.1} /> <br />
+                  <span className="italic">
+                    <RepelText text="webdesign" className="text-accent" delay={0.4} />
+                  </span>{" "}
+                  <br />
+                  <RepelText text="studio." delay={0.9} />
+                </>
+              ) : (
+                <>
+                  <RevealWords text="Digitaal" /> <br />
+                  <span className="italic">
+                    <RevealWords text="webdesign" wordClassName="text-accent" />
+                  </span>{" "}
+                  <br />
+                  <RevealWords text="studio." />
+                </>
+              )}
             </h1>
 
             <motion.p
@@ -96,9 +111,17 @@ export function Hero() {
             </motion.div>
           </div>
 
-          <div className="hidden md:block lg:pr-4 xl:pr-10">
-            <HeroShowcase />
-          </div>
+          {level >= 5 ? (
+            <div className="lg:pr-4 xl:pr-6">
+              <Suspense fallback={null}>
+                <Hero3D />
+              </Suspense>
+            </div>
+          ) : (
+            <div className="hidden md:block lg:pr-4 xl:pr-10">
+              <HeroShowcase />
+            </div>
+          )}
         </div>
 
         <motion.div

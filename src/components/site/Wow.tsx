@@ -6,6 +6,7 @@ import {
   useMotionValue,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
@@ -147,11 +148,17 @@ export function SpotlightCard({
   children,
   className = "",
   dark = false,
+  tilt = false,
 }: {
   children: ReactNode;
   className?: string;
   dark?: boolean;
+  tilt?: boolean;
 }) {
+  const rxRaw = useMotionValue(0);
+  const ryRaw = useMotionValue(0);
+  const rx = useSpring(rxRaw, { stiffness: 200, damping: 18 });
+  const ry = useSpring(ryRaw, { stiffness: 200, damping: 18 });
   const ref = useRef<HTMLDivElement>(null);
   const mx = useMotionValue(-300);
   const my = useMotionValue(-300);
@@ -164,19 +171,26 @@ export function SpotlightCard({
   );
 
   return (
-    <div
+    <motion.div
       ref={ref}
       onPointerMove={(e) => {
         const r = ref.current?.getBoundingClientRect();
         if (!r) return;
         mx.set(e.clientX - r.left);
         my.set(e.clientY - r.top);
+        if (tilt) {
+          ryRaw.set(((e.clientX - r.left) / r.width - 0.5) * 14);
+          rxRaw.set(((e.clientY - r.top) / r.height - 0.5) * -14);
+        }
       }}
       onPointerLeave={() => {
         mx.set(-300);
         my.set(-300);
+        rxRaw.set(0);
+        ryRaw.set(0);
       }}
       className={`group relative ${className}`}
+      style={tilt ? { rotateX: rx, rotateY: ry, transformPerspective: 800 } : undefined}
     >
       <motion.div
         aria-hidden
@@ -184,6 +198,6 @@ export function SpotlightCard({
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
       />
       <div className="relative">{children}</div>
-    </div>
+    </motion.div>
   );
 }

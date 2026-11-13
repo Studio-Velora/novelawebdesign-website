@@ -270,3 +270,15 @@ html.lenis body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Intro-gordijn (Levels.tsx) */
+@keyframes pre-rise {
+  from { transform: translateY(110%); }
+  to { transform: none; }
+}
+@keyframes pre-pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+.pre-letter { animation: pre-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pre-dot { animation: pre-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
