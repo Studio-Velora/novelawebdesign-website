@@ -12,14 +12,17 @@ export function ProcessTimeline() {
   const lineH = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <div ref={ref} className="relative grid gap-12 md:grid-cols-[200px_1fr] xl:grid-cols-[200px_1fr_380px]">
+    <div
+      ref={ref}
+      className="relative grid gap-12 md:grid-cols-[200px_1fr] xl:grid-cols-[200px_1fr_380px]"
+    >
       <div className="relative">
         <div className="sticky top-32 hidden md:block">
           <div className="text-xs uppercase tracking-[0.25em] text-ink-soft">6 stappen</div>
-          <div className="mt-3 font-display text-4xl text-ink">In 14 dagen live.</div>
+          <div className="mt-3 font-display text-4xl text-ink">In 7 dagen live.</div>
         </div>
       </div>
-      <ol className="relative space-y-16 md:space-y-24">
+      <ol className="relative space-y-16 overflow-x-clip md:space-y-24">
         <div className="absolute left-[15px] top-2 bottom-2 w-px bg-ink/10 md:left-[19px]" />
         <motion.div
           style={{ height: lineH }}

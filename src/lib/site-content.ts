@@ -28,8 +28,7 @@ export const SERVICES = [
     title: "Webshop",
     price: "vanaf €1.450",
     onderhoudPrijs: "vanaf €95/maand onderhoud",
-    blurb:
-      "Een professionele Shopify-webshop waarmee je zelfstandig kunt verkopen en groeien.",
+    blurb: "Een professionele Shopify-webshop waarmee je zelfstandig kunt verkopen en groeien.",
     bullets: [
       "Ontwerp op maat van je merk",
       "Zelf producten beheren",
@@ -70,43 +69,37 @@ export const PROCESS = [
     n: "01",
     day: "Dag 1",
     title: "Gratis intake",
-    body:
-      "Ik kom gewoon bij je langs — met echte koekjes. Wij bespreken wat je bedrijf doet en wat de site moet bereiken.",
+    body: "Ik kom gewoon bij je langs — met echte koekjes. Wij bespreken wat je bedrijf doet en wat de site moet bereiken.",
   },
   {
     n: "02",
     day: "Dag 1–2",
     title: "Akkoord & direct aan de slag",
-    body:
-      "Heldere offerte met vaste prijs. Bij akkoord regel ik ter plekke je domein en zakelijke e-mail — klaar binnen 30 minuten.",
+    body: "Heldere offerte met vaste prijs. Bij akkoord regel ik ter plekke je domein en zakelijke e-mail — klaar binnen 30 minuten.",
   },
   {
     n: "03",
-    day: "Dag 3–6",
+    day: "Dag 2–3",
     title: "Ontwerp & preview",
-    body:
-      "Je ziet exact hoe de site eruit komt te zien voordat er code wordt geschreven.",
+    body: "Je ziet exact hoe de site eruit komt te zien voordat er code wordt geschreven.",
   },
   {
     n: "04",
-    day: "Dag 7–11",
+    day: "Dag 4–5",
     title: "Bouw & SEO",
-    body:
-      "Technisch gebouwd: snel, mobiel-vriendelijk en SEO-klaar. Hosting en mail zetten wij op.",
+    body: "Technisch gebouwd: snel, mobiel-vriendelijk en SEO-klaar. Hosting en mail zetten wij op.",
   },
   {
     n: "05",
-    day: "Dag 12–13",
+    day: "Dag 6",
     title: "Revisies",
-    body:
-      "Twee volledige revisierondes inbegrepen. Wij finetunen tot het klopt.",
+    body: "Twee volledige revisierondes inbegrepen. Wij finetunen tot het klopt.",
   },
   {
     n: "06",
-    day: "Dag 14",
+    day: "Dag 7",
     title: "Live & overdracht",
-    body:
-      "De site gaat live met SSL, domein en Search Console. Aansluitend 30 dagen gratis support.",
+    body: "De site gaat live met SSL, domein en Search Console. Aansluitend 30 dagen gratis support.",
   },
 ] as const;
 
@@ -122,16 +115,56 @@ export const AUDIENCES = [
 ] as const;
 
 export const TESTIMONIALS = [
-  { quote: "Klanten maken nu online afspraken en wij krijgen veel meer aanvragen. Snel en eerlijk.", name: "Ahmed B.", role: "Kapper — Leiden" },
-  { quote: "Eindelijk een site die écht strak oogt. Ziet er veel duurder uit dan hij was.", name: "Fatima N.", role: "Beautysalon — Schoonhoven" },
-  { quote: "Binnen twee weken live. iDEAL werkt perfect en de bestellingen komen binnen.", name: "Marco V.", role: "Restaurant — Den Haag" },
-  { quote: "Mensen bellen en zeggen: ik zag jullie site. Beste investering die ik heb gedaan.", name: "Yalcin T.", role: "Interieur — Den Haag" },
-  { quote: "Persoonlijk contact, denkt echt mee. Geen verkooppraatjes maar gewoon goed werk.", name: "Sanne K.", role: "Coach — Utrecht" },
-  { quote: "Wij staan nu op pagina 1 voor onze regio. De SEO doet echt z'n werk.", name: "Rachid E.", role: "Aannemer — Rotterdam" },
-  { quote: "Hosting en mail volledig geregeld, en uitgelegd hoe ik het op m'n telefoon zet. Top.", name: "Lisa M.", role: "ZZP — Gouda" },
-  { quote: "Vaste prijs, geen verrassingen. Precies wat een ondernemer wil.", name: "Dennis P.", role: "Fitness — Alphen a/d Rijn" },
-  { quote: "Onze webshop draait soepel. Producten toevoegen kan ik nu zelf, super handig.", name: "Nadia H.", role: "Webshop — Den Haag" },
-  { quote: "Snelle reacties via WhatsApp, ook na de oplevering. Echt een aanrader.", name: "Joost B.", role: "Trainer — Leiden" },
+  {
+    quote: "Klanten maken nu online afspraken en wij krijgen veel meer aanvragen. Snel en eerlijk.",
+    name: "Ahmed B.",
+    role: "Kapper — Leiden",
+  },
+  {
+    quote: "Eindelijk een site die écht strak oogt. Ziet er veel duurder uit dan hij was.",
+    name: "Fatima N.",
+    role: "Beautysalon — Schoonhoven",
+  },
+  {
+    quote: "Binnen twee weken live. iDEAL werkt perfect en de bestellingen komen binnen.",
+    name: "Marco V.",
+    role: "Restaurant — Den Haag",
+  },
+  {
+    quote: "Mensen bellen en zeggen: ik zag jullie site. Beste investering die ik heb gedaan.",
+    name: "Yalcin T.",
+    role: "Interieur — Den Haag",
+  },
+  {
+    quote: "Persoonlijk contact, denkt echt mee. Geen verkooppraatjes maar gewoon goed werk.",
+    name: "Sanne K.",
+    role: "Coach — Utrecht",
+  },
+  {
+    quote: "Wij staan nu op pagina 1 voor onze regio. De SEO doet echt z'n werk.",
+    name: "Rachid E.",
+    role: "Aannemer — Rotterdam",
+  },
+  {
+    quote: "Hosting en mail volledig geregeld, en uitgelegd hoe ik het op m'n telefoon zet. Top.",
+    name: "Lisa M.",
+    role: "ZZP — Gouda",
+  },
+  {
+    quote: "Vaste prijs, geen verrassingen. Precies wat een ondernemer wil.",
+    name: "Dennis P.",
+    role: "Fitness — Alphen a/d Rijn",
+  },
+  {
+    quote: "Onze webshop draait soepel. Producten toevoegen kan ik nu zelf, super handig.",
+    name: "Nadia H.",
+    role: "Webshop — Den Haag",
+  },
+  {
+    quote: "Snelle reacties via WhatsApp, ook na de oplevering. Echt een aanrader.",
+    name: "Joost B.",
+    role: "Trainer — Leiden",
+  },
 ] as const;
 
 export const PROMISES = [
@@ -176,7 +209,11 @@ export const SEO_STEPS = [
   ["01", "Zoekwoordenonderzoek", "Wij achterhalen waar jouw klanten écht op zoeken."],
   ["02", "Technische SEO", "Snelle laadtijd, nette code en mobiel-first."],
   ["03", "Lokale SEO", "Google Bedrijfsprofiel en lokale vindbaarheid."],
-  ["04", "GEO & AEO", "Ook gevonden worden in AI-antwoorden van ChatGPT, Perplexity en Google's AI-overzichten."],
+  [
+    "04",
+    "GEO & AEO",
+    "Ook gevonden worden in AI-antwoorden van ChatGPT, Perplexity en Google's AI-overzichten.",
+  ],
   ["05", "Content & meten", "Sterke teksten en Search Console."],
 ] as const;
 

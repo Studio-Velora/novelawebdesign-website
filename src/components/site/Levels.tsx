@@ -10,7 +10,7 @@ import {
 } from "framer-motion";
 
 /* ───────── Niveau 2: intro-gordijn ───────── */
-export function Preloader({ onDone }: { onDone: () => void }) {
+export function Preloader({ onReady, onDone }: { onReady: () => void; onDone: () => void }) {
   const [phase, setPhase] = useState<"in" | "out" | "gone">("in");
   const [n, setN] = useState(0);
 
@@ -22,7 +22,10 @@ export function Preloader({ onDone }: { onDone: () => void }) {
       if (p >= 1) clearInterval(iv);
     }, 40);
     // CSS-gestuurd en met harde bovengrenzen: het gordijn mag nooit blijven hangen
-    const t1 = setTimeout(() => setPhase("out"), 1750);
+    const t1 = setTimeout(() => {
+      setPhase("out");
+      onReady();
+    }, 1750);
     const t2 = setTimeout(() => {
       setPhase("gone");
       onDone();
@@ -72,7 +75,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
 }
 
 /* ───────── Niveau 2: band die versnelt en scheeftrekt met scrollen ───────── */
-const WORDS = ["Websites", "Webshops", "SEO", "Live in 14 dagen", "Vaste prijs"];
+const WORDS = ["Websites", "Webshops", "SEO", "Live in 7 dagen", "Vaste prijs"];
 
 export function VelocityBand() {
   const { scrollY } = useScroll();

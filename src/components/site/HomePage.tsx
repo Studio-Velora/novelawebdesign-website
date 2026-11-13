@@ -26,12 +26,26 @@ const PARTNERS = [
   "Cloudflare",
 ];
 
+// Het intro-gordijn speelt één keer per paginabezoek (niet bij elke terugkeer naar home).
+let introPlayed = false;
+
 export function HomePage({ level = 1 }: { level?: number }) {
-  const [ready, setReady] = useState(level < 2);
+  const [phase, setPhase] = useState<"intro" | "ready" | "done">(introPlayed ? "done" : "intro");
   return (
     <>
-      {level >= 2 && !ready && <Preloader onDone={() => setReady(true)} />}
-      {ready && <Hero level={level} />}
+      {phase !== "done" && (
+        <Preloader
+          onReady={() => setPhase("ready")}
+          onDone={() => {
+            introPlayed = true;
+            setPhase("done");
+          }}
+        />
+      )}
+      <Hero level={level} ready={phase !== "intro"} />
+
+      {/* Donkere balk direct onder de hero */}
+      <FactsStrip />
 
       {/* Trust marquee */}
       <section className="border-y border-ink/10 bg-background py-10">
@@ -49,7 +63,6 @@ export function HomePage({ level = 1 }: { level?: number }) {
       </section>
 
       {level >= 2 && <VelocityBand />}
-      <FactsStrip />
       <ScrollStatement />
       {level >= 3 && <PinnedGallery />}
 

@@ -244,7 +244,7 @@ export function HeroShowcase() {
         </div>
 
         {/* zwevende chips met diepte */}
-        <Chip className="-left-6 top-[18%] sm:-left-12" depth={90} delay={1.4}>
+        <Chip className="-left-1 top-[14%] scale-90 sm:-left-12 sm:scale-100" depth={90} delay={1.4}>
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/15 font-display text-sm font-bold text-emerald-700">
             100
           </span>
@@ -254,15 +254,15 @@ export function HeroShowcase() {
           </span>
         </Chip>
 
-        <Chip className="-right-3 top-[-4%] sm:-right-8" depth={130} delay={1.7}>
+        <Chip className="-right-1 top-[-7%] scale-90 sm:-right-8 sm:top-[-4%] sm:scale-100" depth={130} delay={1.7}>
           <span className="text-lg">🚀</span>
           <span className="leading-tight">
-            <span className="block text-[11px] font-semibold text-black">Live in 14 dagen</span>
+            <span className="block text-[11px] font-semibold text-black">Live in 7 dagen</span>
             <span className="block text-[10px] text-black/50">Zonder gedoe</span>
           </span>
         </Chip>
 
-        <Chip className="-bottom-6 right-[8%]" depth={70} delay={2}>
+        <Chip className="-bottom-5 right-[4%] scale-90 sm:right-[8%] sm:scale-100" depth={70} delay={2}>
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E94F37]/15 text-sm text-[#E94F37]">
             ↗
           </span>

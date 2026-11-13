@@ -26,9 +26,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <div className="font-display text-[12rem] leading-none text-accent">404</div>
         <h2 className="mt-4 font-display text-3xl text-ink">Pagina niet gevonden</h2>
-        <p className="mt-3 text-ink-soft">
-          De pagina die je zoekt bestaat niet of is verplaatst.
-        </p>
+        <p className="mt-3 text-ink-soft">De pagina die je zoekt bestaat niet of is verplaatst.</p>
         <div className="mt-8">
           <Link
             to="/"
@@ -64,10 +62,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             Probeer opnieuw
           </button>
-          <a
-            href="/"
-            className="rounded-full border border-ink/20 px-5 py-2.5 text-sm text-ink"
-          >
+          <a href="/" className="rounded-full border border-ink/20 px-5 py-2.5 text-sm text-ink">
             Home
           </a>
         </div>
@@ -88,21 +83,37 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 14 dagen live.",
+          "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 7 dagen live.",
       },
       { property: "og:title", content: "Novela Webdesign — Digitaal design & development studio" },
       {
         property: "og:description",
         content:
-          "Snelle websites en webshops met SEO inbegrepen. Vaste prijzen, persoonlijk contact, in 14 dagen live.",
+          "Snelle websites en webshops met SEO inbegrepen. Vaste prijzen, persoonlijk contact, in 7 dagen live.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Novela Webdesign — Digitaal design & development studio" },
-      { name: "description", content: "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities." },
-      { property: "og:description", content: "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities." },
-      { name: "twitter:description", content: "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a4220ae-413f-4dc8-b7a6-ef86ba57ac9e/id-preview-2700496c--a4b518c4-718f-445e-b842-1a86bc0abe27.lovable.app-1781131761725.png" },
+      {
+        name: "description",
+        content:
+          "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities.",
+      },
+      {
+        property: "og:description",
+        content:
+          "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a4220ae-413f-4dc8-b7a6-ef86ba57ac9e/id-preview-2700496c--a4b518c4-718f-445e-b842-1a86bc0abe27.lovable.app-1781131761725.png",
+      },
       { property: "og:image", content: "https://www.novelawebdesign.nl/og-image.png" },
       { name: "twitter:image", content: "https://www.novelawebdesign.nl/og-image.png" },
     ],
@@ -123,20 +134,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          "name": "Novela Webdesign",
-          "description": "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 14 dagen live.",
-          "url": "https://www.novelawebdesign.nl",
-          "telephone": "+31611277632",
-          "email": "info@novelawebdesign.nl",
-          "address": {
+          name: "Novela Webdesign",
+          description:
+            "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 7 dagen live.",
+          url: "https://www.novelawebdesign.nl",
+          telephone: "+31611277632",
+          email: "info@novelawebdesign.nl",
+          address: {
             "@type": "PostalAddress",
-            "addressLocality": "Den Haag",
-            "addressCountry": "NL"
+            addressLocality: "Den Haag",
+            addressCountry: "NL",
           },
-          "areaServed": "NL",
-          "priceRange": "€€",
-          "openingHours": "Mo-Su 09:00-20:00",
-          "sameAs": []
+          areaServed: "NL",
+          priceRange: "€€",
+          openingHours: "Mo-Su 09:00-20:00",
+          sameAs: [],
         }),
       },
       {

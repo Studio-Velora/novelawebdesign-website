@@ -1,92 +1,54 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   motion,
-  animate,
-  useInView,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 
-/** Telt omhoog naar `to` zodra het in beeld komt. */
-export function CountUp({
-  to,
-  decimals = 0,
-  prefix = "",
-  suffix = "",
-}: {
-  to: number;
-  decimals?: number;
-  prefix?: string;
-  suffix?: string;
-}) {
-  const reduce = useReducedMotion();
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const fmt = (v: number) =>
-    prefix +
-    v.toLocaleString("nl-NL", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-    }) +
-    suffix;
+const PANEL: [string, string][] = [
+  ["7 dagen", "tot live"],
+  ["€450", "vanaf, vaste prijs"],
+  ["5,0 ★", "klantbeoordeling"],
+  ["SEO", "inbegrepen"],
+];
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (reduce || !inView) {
-      el.textContent = fmt(reduce ? to : 0);
-      return;
-    }
-    const c = animate(0, to, {
-      duration: 1.8,
-      ease: [0.22, 1, 0.36, 1],
-      onUpdate: (v) => {
-        el.textContent = fmt(v);
-      },
-    });
-    return () => c.stop();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView, to, reduce]);
-
-  return <span ref={ref}>{fmt(0)}</span>;
-}
-
-const FACTS: { to: number; decimals?: number; prefix?: string; suffix?: string; label: string }[] =
-  [
-    { to: 14, label: "dagen tot jouw website live staat" },
-    { to: 450, prefix: "€", label: "vanaf, met vaste prijs vooraf" },
-    { to: 5, decimals: 1, label: "gemiddelde klantbeoordeling" },
-    { to: 1, label: "aanspreekpunt: degene die bouwt" },
-  ];
-
-export function FactsStrip() {
+/** Variant 3: zwevend paneel dat over de rand van de hero valt, met knop. */
+function FactsPanel() {
   return (
-    <section className="relative bg-ink text-background">
-      <div className="mx-auto grid max-w-[1600px] grid-cols-2 px-6 lg:grid-cols-4 lg:px-12">
-        {FACTS.map((f, i) => (
-          <motion.div
-            key={f.label}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ delay: i * 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className={`py-10 md:py-14 ${i > 0 ? "lg:border-l lg:border-background/15 lg:pl-10" : ""} ${
-              i % 2 === 1 ? "pl-6 lg:pl-10" : ""
-            }`}
-          >
-            <div className="font-display text-6xl leading-none text-accent md:text-7xl xl:text-8xl">
-              <CountUp {...f} />
+    <section className="relative z-10 -mt-10 bg-[linear-gradient(to_bottom,transparent_2.5rem,var(--color-background)_2.5rem)] px-6 pb-10 md:-mt-14 md:bg-[linear-gradient(to_bottom,transparent_3.5rem,var(--color-background)_3.5rem)] lg:px-12">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto grid max-w-[1400px] items-center gap-6 rounded-[28px] bg-ink p-6 text-background shadow-[0_40px_80px_-30px_rgba(40,12,6,0.55)] md:p-8 lg:grid-cols-[1fr_auto] lg:gap-10"
+      >
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          {PANEL.map(([a, b], i) => (
+            <div key={a} className={i > 0 ? "md:border-l md:border-background/15 md:pl-6" : ""}>
+              <div className="font-display text-3xl leading-none text-accent md:text-4xl">{a}</div>
+              <div className="mt-2 text-sm text-background/70">{b}</div>
             </div>
-            <div className="mt-3 max-w-[16rem] text-sm text-background/70">{f.label}</div>
-          </motion.div>
-        ))}
-      </div>
+          ))}
+        </div>
+        <Link
+          to="/offerte"
+          className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-4 text-sm font-semibold text-accent-foreground transition-transform hover:scale-[1.03]"
+        >
+          Plan een gesprek
+          <span className="transition-transform group-hover:translate-x-1">→</span>
+        </Link>
+      </motion.div>
     </section>
   );
+}
+
+export function FactsStrip() {
+  return <FactsPanel />;
 }
 
 function Word({

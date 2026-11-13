@@ -8,7 +8,7 @@ import { RepelText } from "./RepelText";
 const Hero3D = lazy(() => import("./Hero3D").then((m) => ({ default: m.Hero3D })));
 const HeroWebGL = lazy(() => import("./HeroWebGL").then((m) => ({ default: m.HeroWebGL })));
 
-export function Hero({ level = 1 }: { level?: number }) {
+export function Hero({ level = 1, ready = true }: { level?: number; ready?: boolean }) {
   return (
     <section className="relative min-h-screen overflow-hidden pt-32">
       {/* WebGL backdrop */}
@@ -20,7 +20,10 @@ export function Hero({ level = 1 }: { level?: number }) {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[calc(100vh-8rem)] max-w-[1600px] flex-col justify-between px-6 lg:px-12">
+      <div
+        key={ready ? "go" : "wait"}
+        className="relative mx-auto flex min-h-[calc(100vh-8rem)] max-w-[1600px] flex-col justify-between px-6 lg:px-12"
+      >
         <div className="grid items-center gap-12 pt-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
           <div>
             <motion.div
@@ -104,7 +107,7 @@ export function Hero({ level = 1 }: { level?: number }) {
               </Suspense>
             </div>
           ) : (
-            <div className="hidden md:block lg:pr-4 xl:pr-10">
+            <div className="px-2 pb-4 pt-2 sm:px-6 lg:px-0 lg:pb-0 lg:pr-4 lg:pt-0 xl:pr-10">
               <HeroShowcase />
             </div>
           )}
@@ -114,7 +117,7 @@ export function Hero({ level = 1 }: { level?: number }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.6, duration: 1 }}
-          className="mt-16 pb-10"
+          className="mt-16 pb-16 md:pb-20"
         >
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface/70 px-4 py-2 text-sm shadow-sm">
