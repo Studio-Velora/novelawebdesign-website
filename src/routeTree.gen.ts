@@ -9,56 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SeoRouteImport } from './routes/seo'
-import { Route as ReferralVoorwaardenRouteImport } from './routes/referral-voorwaarden'
-import { Route as PrivacybeleidRouteImport } from './routes/privacybeleid'
-import { Route as PortfolioRouteImport } from './routes/portfolio'
-import { Route as PakkettenRouteImport } from './routes/pakketten'
-import { Route as OfferteRouteImport } from './routes/offerte'
-import { Route as MogelijkhedenRouteImport } from './routes/mogelijkheden'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MogelijkhedenRouteImport } from './routes/mogelijkheden'
+import { Route as OfferteRouteImport } from './routes/offerte'
+import { Route as PakkettenRouteImport } from './routes/pakketten'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as PrivacybeleidRouteImport } from './routes/privacybeleid'
+import { Route as ReferralVoorwaardenRouteImport } from './routes/referral-voorwaarden'
+import { Route as SeoRouteImport } from './routes/seo'
 import { Route as WowLevelRouteImport } from './routes/wow.$level'
 
-const SeoRoute = SeoRouteImport.update({
-  id: '/seo',
-  path: '/seo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReferralVoorwaardenRoute = ReferralVoorwaardenRouteImport.update({
-  id: '/referral-voorwaarden',
-  path: '/referral-voorwaarden',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacybeleidRoute = PrivacybeleidRouteImport.update({
-  id: '/privacybeleid',
-  path: '/privacybeleid',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PortfolioRoute = PortfolioRouteImport.update({
-  id: '/portfolio',
-  path: '/portfolio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PakkettenRoute = PakkettenRouteImport.update({
-  id: '/pakketten',
-  path: '/pakketten',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OfferteRoute = OfferteRouteImport.update({
-  id: '/offerte',
-  path: '/offerte',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MogelijkhedenRoute = MogelijkhedenRouteImport.update({
-  id: '/mogelijkheden',
-  path: '/mogelijkheden',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AlgemeneVoorwaardenRoute = AlgemeneVoorwaardenRouteImport.update({
@@ -66,9 +31,44 @@ const AlgemeneVoorwaardenRoute = AlgemeneVoorwaardenRouteImport.update({
   path: '/algemene-voorwaarden',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MogelijkhedenRoute = MogelijkhedenRouteImport.update({
+  id: '/mogelijkheden',
+  path: '/mogelijkheden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OfferteRoute = OfferteRouteImport.update({
+  id: '/offerte',
+  path: '/offerte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PakkettenRoute = PakkettenRouteImport.update({
+  id: '/pakketten',
+  path: '/pakketten',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacybeleidRoute = PrivacybeleidRouteImport.update({
+  id: '/privacybeleid',
+  path: '/privacybeleid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferralVoorwaardenRoute = ReferralVoorwaardenRouteImport.update({
+  id: '/referral-voorwaarden',
+  path: '/referral-voorwaarden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeoRoute = SeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WowLevelRoute = WowLevelRouteImport.update({
@@ -175,60 +175,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/seo': {
-      id: '/seo'
-      path: '/seo'
-      fullPath: '/seo'
-      preLoaderRoute: typeof SeoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/referral-voorwaarden': {
-      id: '/referral-voorwaarden'
-      path: '/referral-voorwaarden'
-      fullPath: '/referral-voorwaarden'
-      preLoaderRoute: typeof ReferralVoorwaardenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacybeleid': {
-      id: '/privacybeleid'
-      path: '/privacybeleid'
-      fullPath: '/privacybeleid'
-      preLoaderRoute: typeof PrivacybeleidRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/portfolio': {
-      id: '/portfolio'
-      path: '/portfolio'
-      fullPath: '/portfolio'
-      preLoaderRoute: typeof PortfolioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pakketten': {
-      id: '/pakketten'
-      path: '/pakketten'
-      fullPath: '/pakketten'
-      preLoaderRoute: typeof PakkettenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/offerte': {
-      id: '/offerte'
-      path: '/offerte'
-      fullPath: '/offerte'
-      preLoaderRoute: typeof OfferteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mogelijkheden': {
-      id: '/mogelijkheden'
-      path: '/mogelijkheden'
-      fullPath: '/mogelijkheden'
-      preLoaderRoute: typeof MogelijkhedenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/algemene-voorwaarden': {
@@ -238,11 +189,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AlgemeneVoorwaardenRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mogelijkheden': {
+      id: '/mogelijkheden'
+      path: '/mogelijkheden'
+      fullPath: '/mogelijkheden'
+      preLoaderRoute: typeof MogelijkhedenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/offerte': {
+      id: '/offerte'
+      path: '/offerte'
+      fullPath: '/offerte'
+      preLoaderRoute: typeof OfferteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pakketten': {
+      id: '/pakketten'
+      path: '/pakketten'
+      fullPath: '/pakketten'
+      preLoaderRoute: typeof PakkettenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacybeleid': {
+      id: '/privacybeleid'
+      path: '/privacybeleid'
+      fullPath: '/privacybeleid'
+      preLoaderRoute: typeof PrivacybeleidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referral-voorwaarden': {
+      id: '/referral-voorwaarden'
+      path: '/referral-voorwaarden'
+      fullPath: '/referral-voorwaarden'
+      preLoaderRoute: typeof ReferralVoorwaardenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seo': {
+      id: '/seo'
+      path: '/seo'
+      fullPath: '/seo'
+      preLoaderRoute: typeof SeoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/wow/$level': {
