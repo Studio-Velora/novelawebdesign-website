@@ -72,7 +72,7 @@ export function RepelText({
                 }}
                 className="inline-block will-change-transform"
               >
-                {c}
+                {c === " " ? "\u00A0" : c}
               </span>
             </motion.span>
           </span>

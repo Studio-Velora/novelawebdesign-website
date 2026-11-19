@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { animate, useMotionValue } from "framer-motion";
-import { Reveal, RevealWords } from "@/components/site/Reveal";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
+import { Reveal } from "@/components/site/Reveal";
+import { RepelText } from "@/components/site/RepelText";
 import { SectionLabel } from "@/components/site/Section";
 
 export const Route = createFileRoute("/pakketten")({
@@ -58,10 +59,11 @@ const WEBSITE_PAKKETTEN: Pakket[] = [
     prijs: 950,
     frequentie: "eenmalig",
     populair: true,
-    subtitel: "Voor ondernemers die meer aanvragen, afspraken en offerteverzoeken willen ontvangen.",
+    subtitel:
+      "Voor ondernemers die meer aanvragen, afspraken en offerteverzoeken willen ontvangen.",
     bullets: [
       "Tot vijf pagina's, bijvoorbeeld diensten, projecten en klantbeoordelingen",
-      "Onderscheidend ontwerp met passende visuele effecten",
+      "Maatwerkontwerp met subtiele animaties",
       "Gerichte opbouw die bezoekers helpt om contact op te nemen",
       "Compact stijlboek: kleuren, lettertypen en richtlijnen",
       "Integratie van één bestaande tool, zoals een afsprakenplanner",
@@ -105,10 +107,16 @@ const WEBSHOP_PAKKET: Pakket = {
 
 const SHOPIFY_VOORDELEN = [
   { titel: "Eenvoudig zelf beheren", tekst: "Producten, prijzen en pagina's pas je zelf aan." },
-  { titel: "Gebruiksvriendelijke checkout", tekst: "Klanten rekenen soepel af met bekende betaalmethoden." },
+  {
+    titel: "Gebruiksvriendelijke checkout",
+    tekst: "Klanten rekenen soepel af met bekende betaalmethoden.",
+  },
   { titel: "Centraal overzicht", tekst: "Producten, voorraad en bestellingen op één plek." },
   { titel: "Hosting via Shopify", tekst: "Techniek en updates zijn geregeld, zonder omkijken." },
-  { titel: "Ruimte om uit te breiden", tekst: "Apps voor reviews, mail en verzending als je wil groeien." },
+  {
+    titel: "Ruimte om uit te breiden",
+    tekst: "Apps voor reviews, mail en verzending als je wil groeien.",
+  },
 ];
 
 const BEHEER_PAKKETTEN: Pakket[] = [
@@ -203,21 +211,40 @@ function AnimatedPrice({ pakket }: { pakket: Pakket }) {
   return <>{pakket.vanaf ? `vanaf ${bedrag}` : bedrag}</>;
 }
 
-function scrollNaarWebshop() {
-  const lenis = (window as unknown as { lenis?: { scrollTo: (target: string, opts?: { offset?: number }) => void } })
-    .lenis;
-  if (lenis) {
-    lenis.scrollTo("#webshop", { offset: -120 });
-  } else {
-    document.getElementById("webshop")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+type Soort = "website" | "webshop";
+
+const FEITEN = [
+  "Vaste prijzen",
+  "Alle prijzen excl. btw",
+  "2 revisierondes",
+  "30 dagen gratis support",
+  "Jouw eigendom, geen lock-in",
+];
+
+/** Beheer Groei en Premium gelden voor website en webshop; in de webshop-tab spreken we over je webshop. */
+function voorWebshop(p: Pakket): Pakket {
+  if (p.id === "beheer-groei")
+    return { ...p, subtitel: "Je webshop actueel houden en gericht verbeteren." };
+  return p;
 }
 
 function Pakketten() {
+  const reduce = useReducedMotion();
+  const [soort, setSoort] = useState<Soort>("website");
   const [eenmaligId, setEenmaligId] = useState<string | null>(null);
   const [maandelijksId, setMaandelijksId] = useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
+  useEffect(() => {
+    if (window.location.hash === "#webshop") setSoort("webshop");
+  }, []);
+
+  function kiesSoort(next: Soort) {
+    setSoort(next);
+    const url = new URL(window.location.href);
+    url.hash = next === "webshop" ? "webshop" : "";
+    window.history.replaceState(null, "", url);
+  }
   function selectEenmalig(id: string) {
     setEenmaligId((cur) => (cur === id ? null : id));
   }
@@ -229,172 +256,135 @@ function Pakketten() {
   const gekozenMaandelijks = ALLE_PAKKETTEN.find((p) => p.id === maandelijksId) ?? null;
   const heeftSelectie = !!gekozenEenmalig || !!gekozenMaandelijks;
 
+  const grid = {
+    eenmaligId,
+    maandelijksId,
+    onEenmalig: selectEenmalig,
+    onMaandelijks: selectMaandelijks,
+  };
+
   return (
     <article className={heeftSelectie ? "pb-32 md:pb-28" : undefined}>
       {/* Hero */}
-      <section className="px-6 pt-40 pb-16 lg:px-12">
-        <div className="mx-auto max-w-[1600px]">
+      <section className="relative overflow-hidden px-6 pb-14 pt-36 md:pt-40 lg:px-12">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <motion.div
+            animate={reduce ? undefined : { x: [0, 40, 0], y: [0, 30, 0] }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -right-40 -top-32 h-[560px] w-[560px] rounded-full bg-accent/25 blur-[120px]"
+          />
+          <motion.div
+            animate={reduce ? undefined : { x: [0, -30, 0], y: [0, -40, 0] }}
+            transition={{ duration: 17, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -left-24 top-48 h-[420px] w-[420px] rounded-full bg-accent-glow/30 blur-[110px]"
+          />
+        </div>
+
+        <div className="relative mx-auto max-w-[1600px]">
           <SectionLabel>Pakketten</SectionLabel>
-          <h1 className="mt-6 font-display text-6xl leading-[1.02] text-ink md:text-[7rem] xl:text-[8rem]">
-            <RevealWords text="Websitepakketten" /> <br />
+          <h1
+            aria-label="Kies je pakket."
+            className="mt-6 font-display text-6xl leading-[1.02] text-ink md:text-[7rem] xl:text-[8rem]"
+          >
+            <RepelText text="Kies je" delay={0.1} /> <br />
             <span className="italic">
-              <RevealWords text="op maat." wordClassName="text-accent" />
+              <RepelText text="pakket." className="text-accent" delay={0.4} />
             </span>
           </h1>
           <Reveal delay={0.3}>
             <p className="mt-8 max-w-2xl text-lg text-ink-soft">
-              Een professionele website die past bij jouw onderneming: van een helder online
-              visitekaartje tot een uitgebreide website die klanten aantrekt en jouw
-              werkprocessen ondersteunt.
+              Van een helder online visitekaartje tot een website of webshop die klanten aantrekt en
+              jouw werk ondersteunt. Kies een pakket en je ziet onderaan direct je totaalprijs.
             </p>
           </Reveal>
           <Reveal delay={0.4}>
-            <p className="mt-4 max-w-2xl text-sm text-ink-soft">
-              Alle prijzen zijn exclusief btw. Websitebouw is eenmalig; beheer en onderhoud
-              zijn maandelijks. Kies hieronder een pakket — je ziet direct de prijs onderaan
-              de pagina.
-            </p>
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {FEITEN.map((f) => (
+                <li
+                  key={f}
+                  className="rounded-full border border-ink/10 bg-background/70 px-4 py-2 text-sm text-ink backdrop-blur"
+                >
+                  {f}
+                </li>
+              ))}
+            </ul>
           </Reveal>
-        </div>
-      </section>
 
-      {/* Websitepakketten */}
-      <section className="px-6 pb-8 lg:px-12">
-        <div className="mx-auto max-w-[1600px]">
-          <div className="grid gap-6 md:grid-cols-3">
-            {WEBSITE_PAKKETTEN.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.08}>
-                <PakketCard pakket={p} selected={eenmaligId === p.id} onSelect={() => selectEenmalig(p.id)} />
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={0.2}>
-            <p className="mt-6 max-w-2xl text-sm text-ink-soft">
-              Een bestaande afsprakenmodule, zoals Calendly, toevoegen? Een eenvoudige
-              plaatsing is mogelijk vanaf €85, exclusief eventuele abonnementskosten van de
-              aanbieder.
-            </p>
-          </Reveal>
-          <Reveal delay={0.25}>
-            <p className="mt-3 max-w-2xl text-sm text-ink-soft">
-              Het aantal formulieren, de workflows en de systeemkoppelingen voor Website
-              Organisatie leggen wij vooraf vast in de offerte. Zo weet je precies wat je
-              krijgt en wat het kost.
-            </p>
-          </Reveal>
-          <Reveal delay={0.3}>
-            <button
-              type="button"
-              onClick={scrollNaarWebshop}
-              className="mt-8 inline-flex items-center gap-2 rounded-full border border-ink/20 px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-background"
+          <Reveal delay={0.5}>
+            <div
+              role="tablist"
+              aria-label="Soort pakket"
+              className="mt-10 inline-flex rounded-full border border-ink/10 bg-background/80 p-1.5 shadow-sm backdrop-blur"
             >
-              Liever een webshop? Bekijk de webshop-opties ↓
-            </button>
+              {(["website", "webshop"] as const).map((k) => {
+                const actief = soort === k;
+                return (
+                  <button
+                    key={k}
+                    type="button"
+                    role="tab"
+                    id={`tab-${k}`}
+                    aria-selected={actief}
+                    aria-controls={`pakketpaneel-${k}`}
+                    onClick={() => kiesSoort(k)}
+                    className="relative min-h-12 rounded-full px-8 text-base font-semibold transition-colors"
+                  >
+                    {actief && (
+                      <motion.span
+                        layoutId="soortpil"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                        className="absolute inset-0 rounded-full bg-ink"
+                      />
+                    )}
+                    <span className={`relative ${actief ? "text-background" : "text-ink"}`}>
+                      {k === "website" ? "Website" : "Webshop"}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Websiteabonnementen */}
-      <section className="bg-surface px-6 py-20 lg:px-12">
-        <div className="mx-auto max-w-[1600px]">
-          <SectionLabel>Websiteabonnementen</SectionLabel>
-          <h2 className="mt-6 font-display text-4xl text-ink md:text-6xl">
-            Beheer &amp; onderhoud.
-          </h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {BEHEER_PAKKETTEN.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.06}>
-                <PakketCard pakket={p} selected={maandelijksId === p.id} onSelect={() => selectMaandelijks(p.id)} />
-              </Reveal>
-            ))}
-          </div>
+      {/* Beide panelen staan in de HTML (voor zoekmachines); alleen het gekozen paneel is zichtbaar. */}
+      {(["website", "webshop"] as const).map((k) => (
+        <div
+          key={k}
+          id={`pakketpaneel-${k}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${k}`}
+          hidden={soort !== k}
+          className={soort === k ? "paneel-in" : undefined}
+        >
+          {k === "website" ? <WebsiteSecties {...grid} /> : <WebshopSecties {...grid} />}
         </div>
-      </section>
-
-      {/* Webshop */}
-      <section id="webshop" className="scroll-mt-28 px-6 py-20 md:scroll-mt-32 lg:px-12">
-        <div className="mx-auto max-w-[1600px]">
-          <SectionLabel>Webshop</SectionLabel>
-          <h2 className="mt-6 font-display text-4xl text-ink md:text-6xl">
-            Zelfstandig verkopen met Shopify.
-          </h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3 md:items-start">
-            <Reveal>
-              <PakketCard pakket={WEBSHOP_PAKKET} selected={eenmaligId === WEBSHOP_PAKKET.id} onSelect={() => selectEenmalig(WEBSHOP_PAKKET.id)} />
-            </Reveal>
-            <Reveal delay={0.1} className="md:col-span-2">
-              <div className="h-full rounded-3xl border border-ink/10 bg-surface/40 p-8">
-                <p className="text-ink-soft">
-                  Wij richten jouw webshop in met een ontwerp op maat, duidelijke producten
-                  en de juiste betaal- en verzendinstellingen — omvang en koppelingen leggen
-                  wij vooraf vast.
-                </p>
-                <p className="mt-5 font-display text-xl text-ink">Vijf Shopify-voordelen</p>
-                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {SHOPIFY_VOORDELEN.map((v) => (
-                    <li key={v.titel} className="flex items-start gap-2.5">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                      <span>
-                        <span className="block font-semibold text-ink">{v.titel}</span>
-                        <span className="text-sm text-ink-soft">{v.tekst}</span>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-5 rounded-2xl border border-ink/10 bg-background p-4 text-sm text-ink-soft">
-                  <strong className="font-semibold text-ink">Volledig in eigen beheer.</strong>{" "}
-                  Het Shopify-account staat op jouw naam — geen lock-in.
-                </p>
-                <p className="mt-3 text-xs text-ink-soft">
-                  Shopify-abonnement, betaal- en transactiekosten en betaalde thema's/apps
-                  niet inbegrepen.
-                </p>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Webshopabonnementen */}
-      <section className="bg-surface px-6 py-20 lg:px-12">
-        <div className="mx-auto max-w-[1600px]">
-          <SectionLabel>Webshopabonnementen</SectionLabel>
-          <h2 className="mt-6 font-display text-4xl text-ink md:text-6xl">
-            Beheer voor je webshop.
-          </h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {[BEHEER_PAKKETTEN[1], BEHEER_PAKKETTEN[2], WEBSHOP_BEHEER_PAKKET].map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.06}>
-                <PakketCard pakket={p} selected={maandelijksId === p.id} onSelect={() => selectMaandelijks(p.id)} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      ))}
 
       {/* Meerwerk */}
       <section className="px-6 py-16 lg:px-12">
         <div className="mx-auto max-w-[1600px]">
           <div className="rounded-3xl border border-ink/10 bg-background p-8 md:p-10">
             <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h3 className="font-display text-2xl text-ink md:text-3xl">Aanvullende werkzaamheden</h3>
+              <h3 className="font-display text-2xl text-ink md:text-3xl">
+                Aanvullende werkzaamheden
+              </h3>
               <div className="font-display text-3xl text-ink">
-                €85<span className="text-base text-ink-soft"> /uur</span>
+                €85<span className="text-base text-ink-soft"> /uur, excl. btw</span>
               </div>
             </div>
             <p className="mt-4 text-ink-soft">
-              Voor werkzaamheden buiten het gekozen pakket ontvang je vooraf een inschatting.
-              Wij voeren meerwerk alleen uit na jouw akkoord.
+              Voor werkzaamheden buiten het gekozen pakket ontvang je vooraf een inschatting. Wij
+              voeren meerwerk alleen uit na jouw akkoord.
             </p>
             <p className="mt-3 text-sm text-ink-soft">
-              Nieuwe pagina's, nieuwe functionaliteiten, uitgebreide koppelingen en een
-              volledig herontwerp vallen buiten kleine onderhoudswijzigingen. Externe
-              abonnementen en licenties worden afzonderlijk vermeld.
+              Nieuwe pagina's, nieuwe functionaliteiten, uitgebreide koppelingen en een volledig
+              herontwerp vallen buiten kleine onderhoudswijzigingen. Externe abonnementen en
+              licenties worden afzonderlijk vermeld.
             </p>
             <p className="mt-3 text-sm text-ink-soft">
-              Optimalisatie is gericht op betere vindbaarheid en conversie; specifieke
-              posities, vermeldingen in AI-antwoorden of aantallen klanten worden niet
-              gegarandeerd.
+              Optimalisatie is gericht op betere vindbaarheid en conversie; specifieke posities,
+              vermeldingen in AI-antwoorden of aantallen klanten worden niet gegarandeerd.
             </p>
           </div>
         </div>
@@ -411,74 +401,242 @@ function Pakketten() {
   );
 }
 
+type GridProps = {
+  eenmaligId: string | null;
+  maandelijksId: string | null;
+  onEenmalig: (id: string) => void;
+  onMaandelijks: (id: string) => void;
+};
+
+function WebsiteSecties({ eenmaligId, maandelijksId, onEenmalig, onMaandelijks }: GridProps) {
+  return (
+    <>
+      <section className="px-6 pb-16 pt-6 lg:px-12">
+        <div className="mx-auto max-w-[1600px]">
+          <div className="grid gap-6 pt-4 md:grid-cols-3 md:items-stretch">
+            {WEBSITE_PAKKETTEN.map((p, i) => (
+              <Reveal key={p.id} delay={i * 0.08} className="h-full">
+                <PakketCard
+                  pakket={p}
+                  selected={eenmaligId === p.id}
+                  onSelect={() => onEenmalig(p.id)}
+                />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.2}>
+            <p className="mt-6 max-w-2xl text-sm text-ink-soft">
+              Een bestaande afsprakenmodule, zoals Calendly, toevoegen? Een eenvoudige plaatsing is
+              mogelijk vanaf €85, exclusief eventuele abonnementskosten van de aanbieder.
+            </p>
+          </Reveal>
+          <Reveal delay={0.25}>
+            <p className="mt-3 max-w-2xl text-sm text-ink-soft">
+              Het aantal formulieren, de workflows en de systeemkoppelingen voor Website Organisatie
+              leggen wij vooraf vast in de offerte. Zo weet je precies wat je krijgt en wat het
+              kost.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <BeheerSectie
+        label="Websiteabonnementen"
+        titel="Beheer & onderhoud."
+        pakketten={BEHEER_PAKKETTEN}
+        maandelijksId={maandelijksId}
+        onMaandelijks={onMaandelijks}
+      />
+    </>
+  );
+}
+
+function WebshopSecties({ eenmaligId, maandelijksId, onEenmalig, onMaandelijks }: GridProps) {
+  return (
+    <>
+      <section className="px-6 pb-16 pt-6 lg:px-12">
+        <div className="mx-auto max-w-[1600px]">
+          <div className="grid gap-6 pt-4 md:grid-cols-3 md:items-start">
+            <Reveal>
+              <PakketCard
+                pakket={WEBSHOP_PAKKET}
+                selected={eenmaligId === WEBSHOP_PAKKET.id}
+                onSelect={() => onEenmalig(WEBSHOP_PAKKET.id)}
+              />
+            </Reveal>
+            <Reveal delay={0.1} className="md:col-span-2">
+              <div className="h-full rounded-3xl border border-ink/10 bg-surface/40 p-8">
+                <p className="text-ink-soft">
+                  Wij richten jouw webshop in met een ontwerp op maat, duidelijke producten en de
+                  juiste betaal- en verzendinstellingen. Omvang en koppelingen leggen wij vooraf
+                  vast.
+                </p>
+                <p className="mt-5 font-display text-xl text-ink">Vijf Shopify-voordelen</p>
+                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {SHOPIFY_VOORDELEN.map((v) => (
+                    <li key={v.titel} className="flex items-start gap-2.5">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                      <span>
+                        <span className="block font-semibold text-ink">{v.titel}</span>
+                        <span className="text-sm text-ink-soft">{v.tekst}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-5 rounded-2xl border border-ink/10 bg-background p-4 text-sm text-ink-soft">
+                  <strong className="font-semibold text-ink">Volledig in eigen beheer.</strong> Het
+                  Shopify-account staat op jouw naam, geen lock-in.
+                </p>
+                <p className="mt-3 text-xs text-ink-soft">
+                  Shopify-abonnement, betaal- en transactiekosten en betaalde thema's/apps niet
+                  inbegrepen.
+                </p>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <BeheerSectie
+        label="Webshopabonnementen"
+        titel="Beheer voor je webshop."
+        pakketten={[voorWebshop(BEHEER_PAKKETTEN[1]), BEHEER_PAKKETTEN[2], WEBSHOP_BEHEER_PAKKET]}
+        maandelijksId={maandelijksId}
+        onMaandelijks={onMaandelijks}
+      />
+    </>
+  );
+}
+
+function BeheerSectie({
+  label,
+  titel,
+  pakketten,
+  maandelijksId,
+  onMaandelijks,
+}: {
+  label: string;
+  titel: string;
+  pakketten: Pakket[];
+  maandelijksId: string | null;
+  onMaandelijks: (id: string) => void;
+}) {
+  return (
+    <section className="bg-surface px-6 py-20 lg:px-12">
+      <div className="mx-auto max-w-[1600px]">
+        <SectionLabel>{label}</SectionLabel>
+        <h2 className="mt-6 font-display text-4xl text-ink md:text-6xl">{titel}</h2>
+        <p className="mt-4 max-w-2xl text-ink-soft">
+          Hosting, SSL en back-ups zitten in elk abonnement. Maandelijks opzegbaar met een
+          opzegtermijn van 1 maand.
+        </p>
+        <div className="mt-10 grid gap-6 pt-4 md:grid-cols-3 md:items-stretch">
+          {pakketten.map((p, i) => (
+            <Reveal key={p.id} delay={i * 0.06} className="h-full">
+              <PakketCard
+                pakket={p}
+                selected={maandelijksId === p.id}
+                onSelect={() => onMaandelijks(p.id)}
+              />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function PakketCard({
   pakket,
   selected,
   onSelect,
-  compact,
 }: {
   pakket: Pakket;
   selected: boolean;
   onSelect: () => void;
-  compact?: boolean;
 }) {
+  const ref = useRef<HTMLButtonElement>(null);
+
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      aria-pressed={selected}
-      className={`group relative flex h-full w-full flex-col rounded-3xl border-2 p-7 text-left transition-all duration-300 md:p-8 ${
-        selected
-          ? "border-accent bg-accent/5 shadow-lg shadow-accent/15"
-          : "border-ink/10 bg-background hover:border-ink/30"
-      }`}
-    >
+    <div className="relative h-full">
       {pakket.populair && (
-        <span className="absolute -top-3 left-7 rounded-full bg-ink px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-background">
+        <span className="absolute -top-3 left-7 z-10 rounded-full bg-ink px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-background">
           Populairste keuze
         </span>
       )}
-
-      <h3 className="font-display text-2xl text-ink md:text-3xl">{pakket.naam}</h3>
-      <p className="mt-2 text-sm italic text-ink-soft">{pakket.subtitel}</p>
-
-      <div className="mt-5 flex items-baseline gap-2">
-        <span className="font-display text-4xl text-ink">
-          {formatPrijs(pakket)}
-          {!pakket.prijsOpAanvraag && pakket.frequentie === "maandelijks" && (
-            <span className="text-lg text-ink-soft">/maand</span>
-          )}
-        </span>
-        {!pakket.prijsOpAanvraag && pakket.frequentie === "eenmalig" && (
-          <span className="text-sm text-ink-soft">eenmalig</span>
-        )}
-      </div>
-
-      <ul className={`mt-6 space-y-2.5 border-t border-ink/10 pt-6 ${compact ? "text-sm" : ""}`}>
-        {pakket.bullets.map((b) => (
-          <li key={b} className="flex items-start gap-3 text-ink-soft">
-            <span
-              className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full transition-colors ${
-                selected ? "bg-accent" : "bg-ink/30"
-              }`}
-            />
-            <span>{b}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-6 flex-1" />
-
-      <span
-        className={`mt-6 block w-full rounded-full py-3 text-center text-sm font-semibold transition-all duration-300 ${
+      <button
+        ref={ref}
+        type="button"
+        onClick={onSelect}
+        aria-pressed={selected}
+        onPointerMove={(e) => {
+          const el = ref.current;
+          if (!el) return;
+          const r = el.getBoundingClientRect();
+          el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          el.style.setProperty("--my", `${e.clientY - r.top}px`);
+        }}
+        className={`group relative flex h-full w-full flex-col overflow-hidden rounded-3xl border-2 p-7 text-left transition-all duration-300 hover:-translate-y-1 md:p-8 ${
           selected
-            ? "bg-accent text-accent-foreground"
-            : "bg-ink/5 text-ink group-hover:bg-ink group-hover:text-background"
+            ? "border-accent-deep bg-accent/5 shadow-lg shadow-accent/15"
+            : pakket.populair
+              ? "border-ink/30 bg-background hover:border-ink/50"
+              : "border-ink/10 bg-background hover:border-ink/30"
         }`}
       >
-        {selected ? "Geselecteerd ✓" : "Kies dit pakket"}
-      </span>
-    </button>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background:
+              "radial-gradient(340px circle at var(--mx, 50%) var(--my, 0%), rgba(233,79,55,0.14), transparent 70%)",
+          }}
+        />
+
+        <h3 className="relative font-display text-2xl text-ink md:text-3xl">{pakket.naam}</h3>
+        <p className="relative mt-2 text-sm italic text-ink-soft">{pakket.subtitel}</p>
+
+        <div className="relative mt-5 flex items-baseline gap-2">
+          <span className="font-display text-4xl text-ink">
+            {formatPrijs(pakket)}
+            {!pakket.prijsOpAanvraag && pakket.frequentie === "maandelijks" && (
+              <span className="text-lg text-ink-soft">/maand</span>
+            )}
+          </span>
+          {!pakket.prijsOpAanvraag && pakket.frequentie === "eenmalig" && (
+            <span className="text-sm text-ink-soft">eenmalig, excl. btw</span>
+          )}
+          {!pakket.prijsOpAanvraag && pakket.frequentie === "maandelijks" && (
+            <span className="text-sm text-ink-soft">excl. btw</span>
+          )}
+        </div>
+
+        <ul className="relative mt-6 space-y-2.5 border-t border-ink/10 pt-6">
+          {pakket.bullets.map((b) => (
+            <li key={b} className="flex items-start gap-3 text-ink-soft">
+              <span
+                className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full transition-colors ${
+                  selected ? "bg-accent-deep" : "bg-ink/30"
+                }`}
+              />
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-6 flex-1" />
+
+        <span
+          className={`relative mt-6 block min-h-12 w-full rounded-full py-3.5 text-center text-sm font-semibold transition-all duration-300 ${
+            selected
+              ? "bg-accent-deep text-white"
+              : "bg-ink/5 text-ink group-hover:bg-ink group-hover:text-background"
+          }`}
+        >
+          {selected ? "Geselecteerd ✓" : "Kies dit pakket"}
+        </span>
+      </button>
+    </div>
   );
 }
 
@@ -507,9 +665,19 @@ function PrijsBalk({
       <div className="mx-auto max-w-[1600px] px-6 lg:px-12">
         {detailsOpen && zichtbaar && (
           <div className="space-y-3 border-b border-ink/10 py-5">
-            {eenmalig && <PrijsRegel label="Eenmalig" pakket={eenmalig} onRemove={() => onRemove("eenmalig")} />}
+            {eenmalig && (
+              <PrijsRegel
+                label="Eenmalig"
+                pakket={eenmalig}
+                onRemove={() => onRemove("eenmalig")}
+              />
+            )}
             {maandelijks && (
-              <PrijsRegel label="Per maand" pakket={maandelijks} onRemove={() => onRemove("maandelijks")} />
+              <PrijsRegel
+                label="Per maand"
+                pakket={maandelijks}
+                onRemove={() => onRemove("maandelijks")}
+              />
             )}
             <p className="text-xs text-ink-soft">Alle prijzen excl. btw.</p>
           </div>
@@ -519,7 +687,9 @@ function PrijsBalk({
           <div className="flex flex-wrap items-center gap-6">
             {eenmalig && (
               <div>
-                <div className="text-[0.65rem] uppercase tracking-[0.16em] text-ink-soft">Eenmalig</div>
+                <div className="text-[0.65rem] uppercase tracking-[0.16em] text-ink-soft">
+                  Eenmalig
+                </div>
                 <div className="font-display text-xl tabular-nums text-ink">
                   <AnimatedPrice pakket={eenmalig} />
                 </div>
@@ -527,7 +697,9 @@ function PrijsBalk({
             )}
             {maandelijks && (
               <div>
-                <div className="text-[0.65rem] uppercase tracking-[0.16em] text-ink-soft">Per maand</div>
+                <div className="text-[0.65rem] uppercase tracking-[0.16em] text-ink-soft">
+                  Per maand
+                </div>
                 <div className="font-display text-xl tabular-nums text-ink">
                   <AnimatedPrice pakket={maandelijks} />
                 </div>
@@ -542,7 +714,9 @@ function PrijsBalk({
               className="flex items-center gap-1.5 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
             >
               Overzicht
-              <span className={`inline-block transition-transform duration-300 ${detailsOpen ? "rotate-180" : ""}`}>
+              <span
+                className={`inline-block transition-transform duration-300 ${detailsOpen ? "rotate-180" : ""}`}
+              >
                 ⌄
               </span>
             </button>
@@ -560,7 +734,15 @@ function PrijsBalk({
   );
 }
 
-function PrijsRegel({ label, pakket, onRemove }: { label: string; pakket: Pakket; onRemove: () => void }) {
+function PrijsRegel({
+  label,
+  pakket,
+  onRemove,
+}: {
+  label: string;
+  pakket: Pakket;
+  onRemove: () => void;
+}) {
   return (
     <div className="flex items-center justify-between gap-4 text-sm">
       <div>
@@ -571,7 +753,11 @@ function PrijsRegel({ label, pakket, onRemove }: { label: string; pakket: Pakket
         <span className="font-medium tabular-nums text-ink">
           <AnimatedPrice pakket={pakket} />
         </span>
-        <button type="button" onClick={onRemove} className="text-ink-soft transition-colors hover:text-accent">
+        <button
+          type="button"
+          onClick={onRemove}
+          className="text-ink-soft transition-colors hover:text-accent"
+        >
           Verwijderen
         </button>
       </div>
