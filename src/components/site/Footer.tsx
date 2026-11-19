@@ -18,8 +18,8 @@ export function Footer() {
           <div>
             <div className="font-display text-3xl">Novela Webdesign</div>
             <p className="mt-4 max-w-sm text-sm text-background/70">
-              Digitaal design & development studio uit Nederland. Wij bouwen websites,
-              webshops en merken die werken.
+              Digitaal design & development studio uit Nederland. Wij bouwen websites, webshops en
+              merken die werken.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a
@@ -41,17 +41,33 @@ export function Footer() {
             <div className="text-xs uppercase tracking-[0.2em] text-background/40">Site</div>
             <ul className="mt-4 space-y-2 text-sm">
               {NAV.map((n) => (
-                <li key={n.to}><Link to={n.to} className="hover:text-accent">{n.label}</Link></li>
+                <li key={n.to}>
+                  <Link to={n.to} className="hover:text-accent">
+                    {n.label}
+                  </Link>
+                </li>
               ))}
-              <li><Link to="/offerte" className="hover:text-accent">Offerte</Link></li>
+              <li>
+                <Link to="/offerte" className="hover:text-accent">
+                  Offerte
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
             <div className="text-xs uppercase tracking-[0.2em] text-background/40">Contact</div>
             <ul className="mt-4 space-y-2 text-sm">
-              <li><a href={`mailto:${CONTACT.email}`} className="hover:text-accent">{CONTACT.email}</a></li>
-              <li><a href={CONTACT.phoneHref} className="hover:text-accent">{CONTACT.phone}</a></li>
+              <li>
+                <a href={`mailto:${CONTACT.email}`} className="hover:text-accent">
+                  {CONTACT.email}
+                </a>
+              </li>
+              <li>
+                <a href={CONTACT.phoneHref} className="hover:text-accent">
+                  {CONTACT.phone}
+                </a>
+              </li>
               <li className="text-background/60">Bereikbaar {CONTACT.hours}</li>
             </ul>
           </div>
@@ -71,11 +87,27 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-background/10 pt-6 text-xs text-background/50">
-          <div>© {new Date().getFullYear()} Novela Webdesign — Alle rechten voorbehouden.</div>
+          <div>
+            © {new Date().getFullYear()} Novela Webdesign — Alle rechten voorbehouden.
+            <br />
+            KvK 93792816 · Ansemhoek 5, 5708 LZ Helmond
+          </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <a href="/privacybeleid" className="hover:text-background/80 transition-colors">Privacybeleid</a>
+            <a href="/privacybeleid" className="hover:text-background/80 transition-colors">
+              Privacybeleid
+            </a>
             <span>·</span>
-            <a href="/algemene-voorwaarden" className="hover:text-background/80 transition-colors">Algemene Voorwaarden</a>
+            <a href="/algemene-voorwaarden" className="hover:text-background/80 transition-colors">
+              Algemene Voorwaarden
+            </a>
+            <span>·</span>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("sv-cookie-open"))}
+              className="hover:text-background/80 transition-colors"
+            >
+              Cookievoorkeuren
+            </button>
             <span>·</span>
             <span>Met zorg gebouwd in Nederland.</span>
           </div>

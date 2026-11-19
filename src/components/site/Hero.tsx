@@ -88,19 +88,6 @@ export function Hero({ level = 1, ready = true }: { level?: number; ready?: bool
                 </Link>
               </Magnetic>
             </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.45, duration: 0.8 }}
-              className="mt-6 flex items-center gap-2 text-sm text-ink-soft"
-            >
-              <span className="text-accent tracking-tight">★★★★★</span>
-              <span>
-                <strong className="font-semibold text-ink">5.0</strong> op basis van
-                klantbeoordelingen
-              </span>
-            </motion.div>
           </div>
 
           {level >= 5 ? (

@@ -6,7 +6,6 @@ import { Marquee } from "@/components/site/Marquee";
 import { ServiceStack, ServiceStackMobile } from "@/components/site/ServiceStack";
 import { BentoFeatures } from "@/components/site/BentoFeatures";
 import { ProcessTimeline } from "@/components/site/ProcessTimeline";
-import { TestimonialMarquee } from "@/components/site/TestimonialMarquee";
 import { FaqList } from "@/components/site/FaqList";
 import { Reveal, RevealWords } from "@/components/site/Reveal";
 import { SectionLabel, ParallaxY } from "@/components/site/Section";
@@ -268,17 +267,6 @@ export function HomePage({ level = 1 }: { level?: number }) {
             </Link>
           </Reveal>
         </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="bg-background py-32 md:py-40">
-        <div className="mx-auto mb-12 max-w-[1600px] px-6 lg:px-12">
-          <SectionLabel>Ervaringen</SectionLabel>
-          <h2 className="mt-6 font-display text-5xl leading-[1.05] text-ink md:text-7xl xl:text-8xl">
-            Wat klanten <span className="italic text-accent">zeggen.</span>
-          </h2>
-        </div>
-        <TestimonialMarquee />
       </section>
 
       {/* Belofte */}

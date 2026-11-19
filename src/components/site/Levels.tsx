@@ -22,7 +22,7 @@ export function Preloader({ onReady, onDone }: { onReady: () => void; onDone: ()
     }
     const start = Date.now();
     const iv = setInterval(() => {
-      const p = Math.min(1, (Date.now() - start) / 1500);
+      const p = Math.min(1, (Date.now() - start) / 600);
       setN(Math.round(p * 100));
       if (p >= 1) clearInterval(iv);
     }, 40);
@@ -30,11 +30,11 @@ export function Preloader({ onReady, onDone }: { onReady: () => void; onDone: ()
     const t1 = setTimeout(() => {
       setPhase("out");
       onReady();
-    }, 1750);
+    }, 850);
     const t2 = setTimeout(() => {
       setPhase("gone");
       onDone();
-    }, 2750);
+    }, 1600);
     return () => {
       clearInterval(iv);
       clearTimeout(t1);
@@ -51,7 +51,7 @@ export function Preloader({ onReady, onDone }: { onReady: () => void; onDone: ()
       className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-ink text-background"
       style={{
         transform: phase === "out" ? "translateY(-100%)" : "none",
-        transition: "transform 950ms cubic-bezier(0.76, 0, 0.24, 1)",
+        transition: "transform 700ms cubic-bezier(0.76, 0, 0.24, 1)",
       }}
     >
       <div className="flex items-center gap-3 font-display text-[16vw] leading-none md:text-[9vw]">
@@ -60,7 +60,7 @@ export function Preloader({ onReady, onDone }: { onReady: () => void; onDone: ()
           <span key={i} className="inline-block overflow-hidden">
             <span
               className="pre-letter inline-block"
-              style={{ animationDelay: `${0.1 + i * 0.07}s` }}
+              style={{ animationDelay: `${0.03 + i * 0.04}s` }}
             >
               {c}
             </span>

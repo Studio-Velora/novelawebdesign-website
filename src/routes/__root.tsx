@@ -141,13 +141,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           sameAs: [],
         }),
       },
-      {
-        src: "https://www.googletagmanager.com/gtag/js?id=G-7B61B4GNTB",
-        async: true,
-      },
-      {
-        children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());var consent=localStorage.getItem('sv_cookie_consent');if(consent==='all'){gtag('config','G-7B61B4GNTB');}`,
-      },
     ],
   }),
   shellComponent: RootShell,

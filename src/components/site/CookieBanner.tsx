@@ -1,22 +1,36 @@
 import { useState, useEffect } from "react";
+import {
+  CONSENT_KEY,
+  OPEN_COOKIE_SETTINGS,
+  clearAnalyticsCookies,
+  loadAnalytics,
+} from "@/lib/analytics";
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("sv_cookie_consent")) {
-      setVisible(true);
-    }
+    const consent = localStorage.getItem(CONSENT_KEY);
+    if (!consent) setVisible(true);
+    if (consent === "all") loadAnalytics();
+    const open = () => setVisible(true);
+    window.addEventListener(OPEN_COOKIE_SETTINGS, open);
+    return () => window.removeEventListener(OPEN_COOKIE_SETTINGS, open);
   }, []);
 
   const accept = () => {
-    localStorage.setItem("sv_cookie_consent", "all");
+    localStorage.setItem(CONSENT_KEY, "all");
+    loadAnalytics();
     setVisible(false);
   };
 
   const decline = () => {
-    localStorage.setItem("sv_cookie_consent", "functional");
+    const wasAll = localStorage.getItem(CONSENT_KEY) === "all";
+    localStorage.setItem(CONSENT_KEY, "functional");
+    clearAnalyticsCookies();
     setVisible(false);
+    // Was analytics al geladen, dan stopt een herlaad het meteen.
+    if (wasAll) window.location.reload();
   };
 
   if (!visible) return null;
