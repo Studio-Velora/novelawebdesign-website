@@ -132,7 +132,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           email: "info@novelawebdesign.nl",
           address: {
             "@type": "PostalAddress",
-            addressLocality: "Den Haag",
+            streetAddress: "Ansemhoek 5",
+            postalCode: "5708 LZ",
+            addressLocality: "Helmond",
             addressCountry: "NL",
           },
           areaServed: "NL",
