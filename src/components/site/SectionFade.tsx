@@ -29,7 +29,10 @@ function pasFadeToe() {
 
   const main = document.querySelector("main");
   if (!main) return;
-  const sections = Array.from(main.querySelectorAll("section")) as HTMLElement[];
+  // Alleen zichtbare secties (een verborgen tabpaneel heeft hoogte 0).
+  const sections = (Array.from(main.querySelectorAll("section")) as HTMLElement[]).filter(
+    (el) => el.offsetHeight > 0 && el.getClientRects().length > 0,
+  );
 
   for (let i = 0; i < sections.length - 1; i++) {
     const a = sections[i];
@@ -41,14 +44,20 @@ function pasFadeToe() {
     // overgang scherp blijven in plaats van doorlopen in de kleur.
     if (isDonker(kleurA) || isDonker(kleurB)) continue;
 
+    // De fade blijft binnen de witruimte van beide secties, zodat hij nooit inhoud afdekt.
+    const padOnder = parseFloat(getComputedStyle(a).paddingBottom) || 0;
+    const padBoven = parseFloat(getComputedStyle(b).paddingTop) || 0;
+    const half = Math.min(FADE_HOOGTE / 2, padOnder, padBoven);
+    if (half < 16) continue;
+
     const overlay = document.createElement("div");
     overlay.setAttribute("data-section-fade", "1");
     Object.assign(overlay.style, {
       position: "absolute",
       left: "0",
       right: "0",
-      height: `${FADE_HOOGTE}px`,
-      top: `${a.offsetTop + a.offsetHeight - FADE_HOOGTE / 2}px`,
+      height: `${half * 2}px`,
+      top: `${a.offsetTop + a.offsetHeight - half}px`,
       pointerEvents: "none",
       zIndex: "1",
       background: `linear-gradient(to bottom, ${kleurA}, ${kleurB})`,
@@ -65,11 +74,31 @@ export function SectionFade() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
+    let raf = 0;
+    const plan = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(pasFadeToe);
+    };
     const id = window.setTimeout(pasFadeToe, 150);
-    window.addEventListener("resize", pasFadeToe);
+    window.addEventListener("resize", plan);
+
+    // Hertekenen zodra de pagina van hoogte verandert of een tabpaneel wisselt.
+    const main = document.querySelector("main");
+    const ro = main ? new ResizeObserver(plan) : null;
+    if (main) ro?.observe(main);
+    const mo = main ? new MutationObserver(plan) : null;
+    mo?.observe(main ?? document.body, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["hidden"],
+    });
+
     return () => {
       window.clearTimeout(id);
-      window.removeEventListener("resize", pasFadeToe);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", plan);
+      ro?.disconnect();
+      mo?.disconnect();
       document.querySelectorAll("[data-section-fade]").forEach((el) => el.remove());
     };
   }, [pathname]);

@@ -7,9 +7,12 @@ import { Magnetic } from "@/components/site/Magnetic";
 import { ProgressIndicator } from "@/components/ui/progress-indicator";
 
 export const Route = createFileRoute("/offerte")({
-  validateSearch: (search: Record<string, unknown>): { pakket?: string; beheer?: string } => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { pakket?: string; beheer?: string; facturatie?: string } => ({
     pakket: typeof search.pakket === "string" ? search.pakket : undefined,
     beheer: typeof search.beheer === "string" ? search.beheer : undefined,
+    facturatie: search.facturatie === "jaarlijks" ? "jaarlijks" : undefined,
   }),
   head: () => ({
     meta: [
@@ -71,6 +74,9 @@ const WEB3FORMS_KEY = "d225a492-154d-4a96-8be2-eaa01d552447";
 function Offerte() {
   const search = Route.useSearch();
   const vanuitPakketten = !!search.pakket;
+  const beheerTekst = search.beheer
+    ? ` + ${search.beheer}${search.facturatie === "jaarlijks" ? " (jaarlijks betaald, 20% korting)" : " (maandelijks)"}`
+    : "";
 
   const [step, setStep] = useState(vanuitPakketten ? 2 : 0);
   const [done, setDone] = useState(false);
@@ -82,7 +88,7 @@ function Offerte() {
     email: "",
     company: "",
     message: vanuitPakketten
-      ? `Gekozen op de pakkettenpagina: ${search.pakket}${search.beheer ? ` + ${search.beheer}` : ""}.`
+      ? `Gekozen op de pakkettenpagina: ${search.pakket}${beheerTekst}.`
       : "",
   });
 
@@ -194,7 +200,7 @@ function Offerte() {
               <span className="font-semibold text-accent">Gekozen:</span>
               <span>
                 {search.pakket}
-                {search.beheer ? ` + ${search.beheer}` : ""}
+                {beheerTekst}
               </span>
             </div>
           )}

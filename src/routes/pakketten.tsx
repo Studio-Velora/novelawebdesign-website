@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/site/Reveal";
 import { RepelText } from "@/components/site/RepelText";
@@ -186,9 +186,23 @@ const ALLE_PAKKETTEN: Pakket[] = [
   WEBSHOP_BEHEER_PAKKET,
 ];
 
-function formatPrijs(p: Pakket) {
+/** Korting bij jaarlijks betalen. Grote websitebouwers (Squarespace, Shopify, Wix, Webflow) geven ongeveer 20-25%. */
+const JAAR_KORTING = 0.2;
+const KORTING_PCT = Math.round(JAAR_KORTING * 100);
+
+type Facturatie = "maandelijks" | "jaarlijks";
+
+const euro = (n: number) => `€${n.toLocaleString("nl-NL")}`;
+
+/** Maandbedrag van een abonnement, met jaarkorting als er jaarlijks wordt betaald. */
+function maandPrijs(p: Pakket, f: Facturatie) {
+  if (p.prijsOpAanvraag || p.frequentie !== "maandelijks" || f === "maandelijks") return p.prijs;
+  return Math.round(p.prijs * (1 - JAAR_KORTING));
+}
+
+function formatPrijs(p: Pakket, prijs: number = p.prijs) {
   if (p.prijsOpAanvraag) return "Prijs op aanvraag";
-  const bedrag = `€${p.prijs.toLocaleString("nl-NL")}`;
+  const bedrag = `€${prijs.toLocaleString("nl-NL")}`;
   return p.vanaf ? `vanaf ${bedrag}` : bedrag;
 }
 
@@ -234,6 +248,7 @@ function Pakketten() {
   const [eenmaligId, setEenmaligId] = useState<string | null>(null);
   const [maandelijksId, setMaandelijksId] = useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [facturatie, setFacturatie] = useState<Facturatie>("maandelijks");
 
   useEffect(() => {
     if (window.location.hash === "#webshop") setSoort("webshop");
@@ -261,6 +276,8 @@ function Pakketten() {
     maandelijksId,
     onEenmalig: selectEenmalig,
     onMaandelijks: selectMaandelijks,
+    facturatie,
+    onFacturatie: setFacturatie,
   };
 
   return (
@@ -393,6 +410,7 @@ function Pakketten() {
       <PrijsBalk
         eenmalig={gekozenEenmalig}
         maandelijks={gekozenMaandelijks}
+        facturatie={facturatie}
         detailsOpen={detailsOpen}
         onToggleDetails={() => setDetailsOpen((v) => !v)}
         onRemove={(freq) => (freq === "eenmalig" ? setEenmaligId(null) : setMaandelijksId(null))}
@@ -406,9 +424,18 @@ type GridProps = {
   maandelijksId: string | null;
   onEenmalig: (id: string) => void;
   onMaandelijks: (id: string) => void;
+  facturatie: Facturatie;
+  onFacturatie: (f: Facturatie) => void;
 };
 
-function WebsiteSecties({ eenmaligId, maandelijksId, onEenmalig, onMaandelijks }: GridProps) {
+function WebsiteSecties({
+  eenmaligId,
+  maandelijksId,
+  onEenmalig,
+  onMaandelijks,
+  facturatie,
+  onFacturatie,
+}: GridProps) {
   return (
     <>
       <section className="px-6 pb-16 pt-6 lg:px-12">
@@ -446,12 +473,21 @@ function WebsiteSecties({ eenmaligId, maandelijksId, onEenmalig, onMaandelijks }
         pakketten={BEHEER_PAKKETTEN}
         maandelijksId={maandelijksId}
         onMaandelijks={onMaandelijks}
+        facturatie={facturatie}
+        onFacturatie={onFacturatie}
       />
     </>
   );
 }
 
-function WebshopSecties({ eenmaligId, maandelijksId, onEenmalig, onMaandelijks }: GridProps) {
+function WebshopSecties({
+  eenmaligId,
+  maandelijksId,
+  onEenmalig,
+  onMaandelijks,
+  facturatie,
+  onFacturatie,
+}: GridProps) {
   return (
     <>
       <section className="px-6 pb-16 pt-6 lg:px-12">
@@ -503,6 +539,8 @@ function WebshopSecties({ eenmaligId, maandelijksId, onEenmalig, onMaandelijks }
         pakketten={[voorWebshop(BEHEER_PAKKETTEN[1]), BEHEER_PAKKETTEN[2], WEBSHOP_BEHEER_PAKKET]}
         maandelijksId={maandelijksId}
         onMaandelijks={onMaandelijks}
+        facturatie={facturatie}
+        onFacturatie={onFacturatie}
       />
     </>
   );
@@ -514,12 +552,16 @@ function BeheerSectie({
   pakketten,
   maandelijksId,
   onMaandelijks,
+  facturatie,
+  onFacturatie,
 }: {
   label: string;
   titel: string;
   pakketten: Pakket[];
   maandelijksId: string | null;
   onMaandelijks: (id: string) => void;
+  facturatie: Facturatie;
+  onFacturatie: (f: Facturatie) => void;
 }) {
   return (
     <section className="bg-surface px-6 py-20 lg:px-12">
@@ -527,9 +569,9 @@ function BeheerSectie({
         <SectionLabel>{label}</SectionLabel>
         <h2 className="mt-6 font-display text-4xl text-ink md:text-6xl">{titel}</h2>
         <p className="mt-4 max-w-2xl text-ink-soft">
-          Hosting, SSL en back-ups zitten in elk abonnement. Maandelijks opzegbaar met een
-          opzegtermijn van 1 maand.
+          Hosting, SSL en back-ups zitten in elk abonnement.
         </p>
+        <FacturatieKeuze facturatie={facturatie} onChange={onFacturatie} />
         <div className="mt-10 grid gap-6 pt-4 md:grid-cols-3 md:items-stretch">
           {pakketten.map((p, i) => (
             <Reveal key={p.id} delay={i * 0.06} className="h-full">
@@ -537,6 +579,7 @@ function BeheerSectie({
                 pakket={p}
                 selected={maandelijksId === p.id}
                 onSelect={() => onMaandelijks(p.id)}
+                facturatie={facturatie}
               />
             </Reveal>
           ))}
@@ -546,16 +589,74 @@ function BeheerSectie({
   );
 }
 
+function FacturatieKeuze({
+  facturatie,
+  onChange,
+}: {
+  facturatie: Facturatie;
+  onChange: (f: Facturatie) => void;
+}) {
+  const id = useId();
+  return (
+    <div className="mt-8">
+      <div
+        role="radiogroup"
+        aria-label="Betaalperiode beheer"
+        className="inline-flex rounded-full border border-ink/10 bg-background p-1.5 shadow-sm"
+      >
+        {(["maandelijks", "jaarlijks"] as const).map((k) => {
+          const actief = facturatie === k;
+          return (
+            <button
+              key={k}
+              type="button"
+              role="radio"
+              aria-checked={actief}
+              onClick={() => onChange(k)}
+              className="relative flex min-h-12 items-center gap-2 rounded-full px-6 text-base font-semibold"
+            >
+              {actief && (
+                <motion.span
+                  layoutId={`facturatie-${id}`}
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  className="absolute inset-0 rounded-full bg-ink"
+                />
+              )}
+              <span className={`relative ${actief ? "text-background" : "text-ink"}`}>
+                {k === "maandelijks" ? "Maandelijks" : "Jaarlijks"}
+              </span>
+              {k === "jaarlijks" && (
+                <span className="relative rounded-full bg-accent-deep px-2 py-0.5 text-xs font-semibold text-white">
+                  −{KORTING_PCT}%
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+      <p className="mt-3 max-w-2xl text-sm text-ink-soft">
+        {facturatie === "jaarlijks"
+          ? `Je betaalt 12 maanden vooruit en krijgt ${KORTING_PCT}% korting. De voorwaarden voor jaarlijks betalen leggen we vast in de offerte.`
+          : "Maandelijks opzegbaar met een opzegtermijn van 1 maand."}
+      </p>
+    </div>
+  );
+}
+
 function PakketCard({
   pakket,
   selected,
   onSelect,
+  facturatie = "maandelijks",
 }: {
   pakket: Pakket;
   selected: boolean;
   onSelect: () => void;
+  facturatie?: Facturatie;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
+  const prijs = maandPrijs(pakket, facturatie);
+  const metKorting = prijs !== pakket.prijs;
 
   return (
     <div className="relative h-full">
@@ -598,7 +699,12 @@ function PakketCard({
 
         <div className="relative mt-5 flex items-baseline gap-2">
           <span className="font-display text-4xl text-ink">
-            {formatPrijs(pakket)}
+            {metKorting && (
+              <span className="mr-2 text-xl text-ink-soft line-through decoration-accent-deep/60">
+                {euro(pakket.prijs)}
+              </span>
+            )}
+            {formatPrijs(pakket, prijs)}
             {!pakket.prijsOpAanvraag && pakket.frequentie === "maandelijks" && (
               <span className="text-lg text-ink-soft">/maand</span>
             )}
@@ -610,6 +716,13 @@ function PakketCard({
             <span className="text-sm text-ink-soft">excl. btw</span>
           )}
         </div>
+
+        {metKorting && (
+          <p className="relative mt-2 text-sm text-ink-soft">
+            {euro(prijs * 12)} per jaar, vooruitbetaald. Je bespaart{" "}
+            {euro(pakket.prijs * 12 - prijs * 12)}.
+          </p>
+        )}
 
         <ul className="relative mt-6 space-y-2.5 border-t border-ink/10 pt-6">
           {pakket.bullets.map((b) => (
@@ -642,18 +755,28 @@ function PakketCard({
 
 function PrijsBalk({
   eenmalig,
-  maandelijks,
+  maandelijks: gekozenMaandelijks,
+  facturatie,
   detailsOpen,
   onToggleDetails,
   onRemove,
 }: {
   eenmalig: Pakket | null;
   maandelijks: Pakket | null;
+  facturatie: Facturatie;
   detailsOpen: boolean;
   onToggleDetails: () => void;
   onRemove: (freq: "eenmalig" | "maandelijks") => void;
 }) {
-  const zichtbaar = !!eenmalig || !!maandelijks;
+  const zichtbaar = !!eenmalig || !!gekozenMaandelijks;
+  const jaarlijks =
+    facturatie === "jaarlijks" && !!gekozenMaandelijks && !gekozenMaandelijks.prijsOpAanvraag;
+  // Pakket met het bedrag dat de klant echt per maand betaalt (met jaarkorting).
+  const maandelijks = gekozenMaandelijks
+    ? { ...gekozenMaandelijks, prijs: maandPrijs(gekozenMaandelijks, facturatie) }
+    : null;
+  const jaarBedrag = maandelijks ? maandelijks.prijs * 12 : 0;
+  const besparing = gekozenMaandelijks ? gekozenMaandelijks.prijs * 12 - jaarBedrag : 0;
 
   return (
     <div
@@ -674,10 +797,16 @@ function PrijsBalk({
             )}
             {maandelijks && (
               <PrijsRegel
-                label="Per maand"
+                label={jaarlijks ? "Per maand (jaarlijks betaald)" : "Per maand"}
                 pakket={maandelijks}
                 onRemove={() => onRemove("maandelijks")}
               />
+            )}
+            {jaarlijks && (
+              <p className="text-xs text-ink-soft">
+                Jaarlijks vooruitbetaald: {euro(jaarBedrag)} per jaar, {KORTING_PCT}% korting (je
+                bespaart {euro(besparing)}).
+              </p>
             )}
             <p className="text-xs text-ink-soft">Alle prijzen excl. btw.</p>
           </div>
@@ -698,7 +827,7 @@ function PrijsBalk({
             {maandelijks && (
               <div>
                 <div className="text-[0.65rem] uppercase tracking-[0.16em] text-ink-soft">
-                  Per maand
+                  {jaarlijks ? "Per maand, jaarlijks betaald" : "Per maand"}
                 </div>
                 <div className="font-display text-xl tabular-nums text-ink">
                   <AnimatedPrice pakket={maandelijks} />
@@ -722,7 +851,11 @@ function PrijsBalk({
             </button>
             <Link
               to="/offerte"
-              search={{ pakket: eenmalig?.naam, beheer: maandelijks?.naam }}
+              search={{
+                pakket: eenmalig?.naam,
+                beheer: maandelijks?.naam,
+                facturatie: jaarlijks ? "jaarlijks" : undefined,
+              }}
               className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-accent"
             >
               Plan een gesprek &rarr;
