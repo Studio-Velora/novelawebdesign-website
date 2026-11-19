@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Lock, Rocket, Smartphone } from "lucide-react";
 import {
   AnimatePresence,
   motion,
@@ -222,7 +223,7 @@ export function HeroShowcase() {
             <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
             <div className="mx-auto flex w-[62%] items-center justify-center gap-1.5 rounded-md bg-white px-3 py-1 text-[10px] text-black/55">
-              <span className="text-[8px]">🔒</span>
+              <Lock className="h-2.5 w-2.5" aria-hidden />
               <AnimatePresence mode="wait">
                 <motion.span
                   key={t.url}
@@ -235,6 +236,9 @@ export function HeroShowcase() {
                 </motion.span>
               </AnimatePresence>
             </div>
+            <span className="rounded bg-black/5 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-black/55">
+              Voorbeeld
+            </span>
           </div>
           <div className="relative aspect-[16/10.5]">
             <AnimatePresence mode="wait">
@@ -250,11 +254,11 @@ export function HeroShowcase() {
           delay={1.4}
         >
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/15 font-display text-sm font-bold text-emerald-700">
-            100
+            <Smartphone className="h-4 w-4" aria-hidden />
           </span>
           <span className="leading-tight">
-            <span className="block text-[11px] font-semibold text-black">Lighthouse</span>
-            <span className="block text-[10px] text-black/50">Razendsnel</span>
+            <span className="block text-[11px] font-semibold text-black">Mobiel eerst</span>
+            <span className="block text-[10px] text-black/50">Ontworpen voor je telefoon</span>
           </span>
         </Chip>
 
@@ -263,10 +267,10 @@ export function HeroShowcase() {
           depth={130}
           delay={1.7}
         >
-          <span className="text-lg">🚀</span>
+          <Rocket className="h-5 w-5 text-[#E94F37]" aria-hidden />
           <span className="leading-tight">
-            <span className="block text-[11px] font-semibold text-black">Live in 7 dagen</span>
-            <span className="block text-[10px] text-black/50">Zonder gedoe</span>
+            <span className="block text-[11px] font-semibold text-black">Binnen een week live</span>
+            <span className="block text-[10px] text-black/50">Na akkoord en content</span>
           </span>
         </Chip>
 

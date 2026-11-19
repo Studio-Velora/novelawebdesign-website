@@ -8,15 +8,16 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Snelle websites en webshops voor ondernemers. Vaste prijzen, SEO inbegrepen, in 7 dagen live.",
+          "Snelle websites en webshops voor ondernemers. Vaste prijzen, SEO inbegrepen, binnen een week live.",
       },
       { property: "og:title", content: "Novela Webdesign — Digitaal design & development studio" },
       {
         property: "og:description",
         content:
-          "Wij bouwen schaalbare digitale producten met doordacht design en zorgvuldige ontwikkeling.",
+          "Snelle websites en webshops voor ondernemers. Vaste prijzen, SEO inbegrepen, binnen een week live.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://www.novelawebdesign.nl/" }],
   }),
   component: () => <HomePage />,
 });

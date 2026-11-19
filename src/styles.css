@@ -31,6 +31,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent-glow: var(--accent-glow);
+  --color-accent-deep: var(--accent-deep);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -72,6 +73,8 @@
   --accent: oklch(0.64 0.21 32);              /* #E94F37 vermillion */
   --accent-foreground: oklch(0.98 0.005 80);
   --accent-glow: oklch(0.78 0.16 45);
+  /* Donkerder accent voor knoppen met witte tekst (contrast >= 4,5:1) */
+  --accent-deep: oklch(0.55 0.2 32);
 
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0.005 80);
@@ -145,6 +148,11 @@
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     overflow-x: clip;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-deep);
+    outline-offset: 3px;
   }
 
   ::selection {

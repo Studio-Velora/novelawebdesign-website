@@ -51,29 +51,37 @@ export function Header() {
           >
             +31 6 11 27 76 32
           </a>
-        <Magnetic strength={15}>
-          <Link
-            to="/pakketten"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-background"
-          >
-            <span className="absolute inset-0 -translate-y-full bg-accent transition-transform duration-500 group-hover:translate-y-0" />
-            <span className="relative">Bekijk pakketten</span>
-            <span className="relative transition-transform duration-300 group-hover:translate-x-1">
-              &rarr;
-            </span>
-          </Link>
-        </Magnetic>
+          <Magnetic strength={15}>
+            <Link
+              to="/pakketten"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-background"
+            >
+              <span className="absolute inset-0 -translate-y-full bg-accent transition-transform duration-500 group-hover:translate-y-0" />
+              <span className="relative">Bekijk pakketten</span>
+              <span className="relative transition-transform duration-300 group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </Link>
+          </Magnetic>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Sluit menu" : "Open menu"}
-          aria-expanded={open}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink md:hidden"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <Link
+            to="/offerte"
+            className="inline-flex h-11 items-center rounded-full bg-accent-deep px-4 text-sm font-semibold text-white"
+          >
+            Offerte
+          </Link>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Sluit menu" : "Open menu"}
+            aria-expanded={open}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 text-ink"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>

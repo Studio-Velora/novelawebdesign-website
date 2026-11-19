@@ -22,25 +22,32 @@ export function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-6 left-1/2 z-[999] w-[calc(100%-3rem)] max-w-xl -translate-x-1/2 rounded-2xl border border-ink/10 bg-surface shadow-2xl shadow-ink/10 p-5 md:p-6">
+    <div
+      role="dialog"
+      aria-label="Cookievoorkeuren"
+      className="fixed bottom-3 left-1/2 z-[999] w-[calc(100%-1.5rem)] max-w-xl -translate-x-1/2 rounded-2xl border border-ink/10 bg-surface p-4 shadow-2xl shadow-ink/10 md:bottom-6 md:w-[calc(100%-3rem)] md:p-6"
+    >
       <p className="text-sm text-ink-soft leading-relaxed">
         <span className="block font-display text-base text-ink mb-1">Cookies</span>
         Wij gebruiken functionele cookies en — met uw toestemming — verbetercookies.{" "}
-        <a href="/privacybeleid" className="underline underline-offset-2 hover:text-accent transition-colors">
+        <a
+          href="/privacybeleid"
+          className="underline underline-offset-2 hover:text-accent transition-colors"
+        >
           Privacyverklaring
         </a>
         .
       </p>
-      <div className="mt-4 flex gap-3">
+      <div className="mt-3 flex gap-3 md:mt-4">
         <button
           onClick={accept}
-          className="flex-1 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+          className="min-h-11 flex-1 rounded-full bg-accent-deep px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
         >
           Accepteren
         </button>
         <button
           onClick={decline}
-          className="flex-1 rounded-full border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ink/5"
+          className="min-h-11 flex-1 rounded-full border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ink/5"
         >
           Alleen functioneel
         </button>

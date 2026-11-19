@@ -177,7 +177,7 @@ export const PROMISES = [
 export const FAQ = [
   {
     q: "Hoe lang duurt het bouwen van een website?",
-    a: "Een website staat gebruikelijk binnen 1 week live.",
+    a: "Binnen 1 week live, gerekend vanaf akkoord, aanbetaling en volledige content. Wachten wij op jou (feedback, toegang of materiaal), dan loopt die week even niet door.",
   },
   {
     q: "Wat kost de hosting?",

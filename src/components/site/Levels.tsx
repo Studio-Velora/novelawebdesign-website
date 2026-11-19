@@ -15,6 +15,11 @@ export function Preloader({ onReady, onDone }: { onReady: () => void; onDone: ()
   const [n, setN] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      onReady();
+      onDone();
+      return;
+    }
     const start = Date.now();
     const iv = setInterval(() => {
       const p = Math.min(1, (Date.now() - start) / 1500);
@@ -42,6 +47,7 @@ export function Preloader({ onReady, onDone }: { onReady: () => void; onDone: ()
 
   return (
     <div
+      aria-hidden="true"
       className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-ink text-background"
       style={{
         transform: phase === "out" ? "translateY(-100%)" : "none",
@@ -75,7 +81,7 @@ export function Preloader({ onReady, onDone }: { onReady: () => void; onDone: ()
 }
 
 /* ───────── Niveau 2: band die versnelt en scheeftrekt met scrollen ───────── */
-const WORDS = ["Websites", "Webshops", "SEO", "Live in 7 dagen", "Vaste prijs"];
+const WORDS = ["Websites", "Webshops", "SEO", "Binnen een week live", "Vaste prijs"];
 
 export function VelocityBand() {
   const { scrollY } = useScroll();

@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useMemo, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -41,7 +41,10 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error: rawError, reset }: { error: unknown; reset: () => void }) {
-  const error = rawError instanceof Error ? rawError : new Error(String(rawError));
+  const error = useMemo(
+    () => (rawError instanceof Error ? rawError : new Error(String(rawError))),
+    [rawError],
+  );
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -84,44 +87,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 7 dagen live.",
+          "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, binnen een week live.",
       },
       { property: "og:title", content: "Novela Webdesign — Digitaal design & development studio" },
       {
         property: "og:description",
         content:
-          "Snelle websites en webshops met SEO inbegrepen. Vaste prijzen, persoonlijk contact, in 7 dagen live.",
+          "Snelle websites en webshops met SEO inbegrepen. Vaste prijzen, persoonlijk contact, binnen een week live.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "nl_NL" },
+      { property: "og:site_name", content: "Novela Webdesign" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Novela Webdesign — Digitaal design & development studio" },
-      {
-        name: "description",
-        content:
-          "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities.",
-      },
-      {
-        property: "og:description",
-        content:
-          "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities.",
-      },
+      { property: "og:image", content: "https://www.novelawebdesign.nl/og-image.png" },
       {
         name: "twitter:description",
         content:
-          "Novela Webdesign is a dynamic website showcasing a web development studio's creative capabilities.",
+          "Snelle websites en webshops met SEO inbegrepen. Vaste prijzen, persoonlijk contact, binnen een week live.",
       },
-      {
-        property: "og:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a4220ae-413f-4dc8-b7a6-ef86ba57ac9e/id-preview-2700496c--a4b518c4-718f-445e-b842-1a86bc0abe27.lovable.app-1781131761725.png",
-      },
-      { property: "og:image", content: "https://www.novelawebdesign.nl/og-image.png" },
       { name: "twitter:image", content: "https://www.novelawebdesign.nl/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "canonical", href: "https://www.novelawebdesign.nl/" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -137,7 +126,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "LocalBusiness",
           name: "Novela Webdesign",
           description:
-            "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, in 7 dagen live.",
+            "Novela Webdesign bouwt snelle websites, webshops en merken voor ondernemers. Vaste prijzen, SEO inbegrepen, binnen een week live.",
           url: "https://www.novelawebdesign.nl",
           telephone: "+31611277632",
           email: "info@novelawebdesign.nl",
@@ -193,8 +182,14 @@ function RootComponent() {
       <ScrollProgress />
       <Cursor />
       <SafeAreaFill />
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1000] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-background"
+      >
+        Naar de inhoud
+      </a>
       <Header />
-      <main className="relative">
+      <main id="main" tabIndex={-1} className="relative outline-none">
         <Outlet />
       </main>
       <Footer />

@@ -39,7 +39,10 @@ export function Hero({ level = 1, ready = true }: { level?: number; ready?: bool
               Welkom bij Novela Webdesign
             </motion.div>
 
-            <h1 className="mt-8 font-display text-[14vw] leading-[1.04] tracking-tight text-ink md:text-[10vw] lg:text-[6.2rem] xl:text-[7.6rem] 2xl:text-[9rem]">
+            <h1
+              aria-label="Digitaal webdesign studio."
+              className="mt-8 font-display text-[14vw] leading-[1.04] tracking-tight text-ink md:text-[10vw] lg:text-[6.2rem] xl:text-[7.6rem] 2xl:text-[9rem]"
+            >
               <RepelText text="Digitaal" delay={0.1} /> <br />
               <span className="italic">
                 <RepelText text="webdesign" className="text-accent" delay={0.4} />
@@ -123,10 +126,12 @@ export function Hero({ level = 1, ready = true }: { level?: number; ready?: bool
             <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface/70 px-4 py-2 text-sm shadow-sm">
               <span className="text-ink-soft">Websites</span>
               <strong className="font-semibold text-accent">vanaf €450</strong>
+              <span className="text-ink-soft">excl. btw</span>
             </span>
             <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface/70 px-4 py-2 text-sm shadow-sm">
               <span className="text-ink-soft">Webshops</span>
               <strong className="font-semibold text-accent">vanaf €1.450</strong>
+              <span className="text-ink-soft">excl. btw</span>
             </span>
             <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface/70 px-4 py-2 text-sm text-ink-soft shadow-sm">
               <span className="font-bold text-emerald-600">✓</span> SEO inbegrepen

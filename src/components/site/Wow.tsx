@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import {
   motion,
   useMotionValue,
+  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
@@ -10,9 +11,9 @@ import {
 } from "framer-motion";
 
 const PANEL: [string, string][] = [
-  ["7 dagen", "tot live"],
-  ["€450", "vanaf, vaste prijs"],
-  ["5,0 ★", "klantbeoordeling"],
+  ["1 week", "tot live*"],
+  ["€450", "vanaf, excl. btw"],
+  ["2 revisies", "inbegrepen"],
   ["SEO", "inbegrepen"],
 ];
 
@@ -27,17 +28,24 @@ function FactsPanel() {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="mx-auto grid max-w-[1400px] items-center gap-6 rounded-[28px] bg-ink p-6 text-background shadow-[0_40px_80px_-30px_rgba(40,12,6,0.55)] md:p-8 lg:grid-cols-[1fr_auto] lg:gap-10"
       >
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          {PANEL.map(([a, b], i) => (
-            <div key={a} className={i > 0 ? "md:border-l md:border-background/15 md:pl-6" : ""}>
-              <div className="font-display text-3xl leading-none text-accent md:text-4xl">{a}</div>
-              <div className="mt-2 text-sm text-background/70">{b}</div>
-            </div>
-          ))}
+        <div>
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            {PANEL.map(([a, b], i) => (
+              <div key={a} className={i > 0 ? "md:border-l md:border-background/15 md:pl-6" : ""}>
+                <div className="font-display text-3xl leading-none text-accent md:text-4xl">
+                  {a}
+                </div>
+                <div className="mt-2 text-sm text-background/70">{b}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 text-xs text-background/60">
+            * Na akkoord, aanbetaling en volledige content. Prijzen excl. btw.
+          </div>
         </div>
         <Link
           to="/offerte"
-          className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-4 text-sm font-semibold text-accent-foreground transition-transform hover:scale-[1.03]"
+          className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-accent-deep px-7 py-4 text-sm font-semibold text-white transition-transform hover:scale-[1.03]"
         >
           Plan een gesprek
           <span className="transition-transform group-hover:translate-x-1">→</span>
@@ -62,7 +70,15 @@ function Word({
   progress: MotionValue<number>;
   accent?: boolean;
 }) {
-  const opacity = useTransform(progress, range, [0.14, 1]);
+  const reduce = useReducedMotion();
+  const opacity = useTransform(progress, range, [0.5, 1]);
+  if (reduce) {
+    return (
+      <span className={`mr-[0.25em] inline-block ${accent ? "italic text-accent" : ""}`}>
+        {word}
+      </span>
+    );
+  }
   return (
     <motion.span
       style={{ opacity }}
@@ -78,7 +94,7 @@ export function ScrollStatement() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.45"] });
   const text =
-    "Je website is het eerste wat klanten van je zien. Wij bouwen er een die opvalt, razendsnel laadt en bezoekers verandert in klanten.";
+    "Je website is het eerste wat klanten van je zien. Wij bouwen er een die opvalt, snel laadt en bezoekers verandert in klanten.";
   const accents = new Set(["opvalt,", "klanten."]);
   const words = text.split(" ");
 

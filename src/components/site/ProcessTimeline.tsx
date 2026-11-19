@@ -19,7 +19,7 @@ export function ProcessTimeline() {
       <div className="relative">
         <div className="sticky top-32 hidden md:block">
           <div className="text-xs uppercase tracking-[0.25em] text-ink-soft">6 stappen</div>
-          <div className="mt-3 font-display text-4xl text-ink">In 7 dagen live.</div>
+          <div className="mt-3 font-display text-4xl text-ink">Binnen een week live.</div>
         </div>
       </div>
       <ol className="relative space-y-16 overflow-x-clip md:space-y-24">

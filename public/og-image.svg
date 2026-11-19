@@ -35,7 +35,7 @@
   <text x="80" y="490" font-family="'Fraunces', 'Times New Roman', serif" font-size="100" font-weight="500" fill="#1a1a1a" letter-spacing="-3" font-style="italic">verkopen.</text>
 
   <!-- Subtitle -->
-  <text x="80" y="560" font-family="'Inter Tight', sans-serif" font-size="24" fill="#1a1a1a" opacity="0.7">Vaste prijzen · SEO inbegrepen · In 7 dagen live</text>
+  <text x="80" y="560" font-family="'Inter Tight', sans-serif" font-size="24" fill="#1a1a1a" opacity="0.7">Vaste prijzen · SEO inbegrepen · Binnen een week live</text>
 
   <!-- Decorative circle right -->
   <circle cx="1080" cy="200" r="160" fill="none" stroke="#b5613a" stroke-width="2" opacity="0.3"/>

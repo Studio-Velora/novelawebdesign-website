@@ -56,7 +56,7 @@ export function RepelText({
 
   const chars = Array.from(text);
   return (
-    <span className={`inline-block whitespace-nowrap ${className}`} aria-label={text}>
+    <span className={`inline-block whitespace-nowrap ${className}`}>
       {chars.map((c, i) => (
         <Fragment key={i}>
           <span className="inline-block align-bottom" aria-hidden>

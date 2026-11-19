@@ -54,7 +54,7 @@ export function HomePage({ level = 1 }: { level?: number }) {
           items={PARTNERS.map((p) => (
             <span
               key={p}
-              className="font-display text-3xl leading-[1.3] text-ink/40 transition-colors hover:text-accent md:text-5xl"
+              className="font-display text-3xl leading-[1.3] text-ink/60 transition-colors hover:text-accent md:text-5xl"
             >
               {p}
             </span>
@@ -288,7 +288,7 @@ export function HomePage({ level = 1 }: { level?: number }) {
             <span className="text-background/60">Onze belofte</span>
           </SectionLabel>
           <h2 className="mt-6 font-display text-5xl leading-[1.05] md:text-7xl xl:text-8xl">
-            Jij neemt <span className="italic text-accent">geen risico.</span>
+            Duidelijke afspraken, <span className="italic text-accent">vooraf.</span>
           </h2>
           <div className="mt-16 grid gap-4 md:grid-cols-4">
             {PROMISES.map(([t, b], i) => (
@@ -330,7 +330,7 @@ export function HomePage({ level = 1 }: { level?: number }) {
           <h2 className="mt-6 font-display text-[12vw] leading-[0.95] tracking-tight text-ink md:text-[7vw]">
             <RevealWords text="Jouw website kan" /> <br />
             <span className="italic">
-              <RevealWords text="dit weekend" wordClassName="text-accent" />
+              <RevealWords text="binnen een week" wordClassName="text-accent" />
             </span>{" "}
             <br />
             <RevealWords text="live zijn." />
