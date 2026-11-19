@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
+import { CalendarDays, Sparkles } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { RepelText } from "@/components/site/RepelText";
 import { SectionLabel } from "@/components/site/Section";
@@ -597,14 +598,33 @@ function FacturatieKeuze({
   onChange: (f: Facturatie) => void;
 }) {
   const id = useId();
+  // Grootste jaarbesparing van de getoonde abonnementen, als lokmiddel op de knop.
+  const maxBesparing = Math.max(
+    ...BEHEER_PAKKETTEN.map((p) => p.prijs * 12 - maandPrijs(p, "jaarlijks") * 12),
+  );
+  const opties = [
+    {
+      k: "maandelijks" as const,
+      titel: "Maandelijks",
+      sub: "Opzegbaar per maand",
+      Icon: CalendarDays,
+    },
+    {
+      k: "jaarlijks" as const,
+      titel: "Jaarlijks",
+      sub: `Tot ${euro(maxBesparing)} voordeel per jaar`,
+      Icon: Sparkles,
+    },
+  ];
+
   return (
-    <div className="mt-8">
+    <div className="mt-8 max-w-xl">
       <div
         role="radiogroup"
         aria-label="Betaalperiode beheer"
-        className="inline-flex rounded-full border border-ink/10 bg-background p-1.5 shadow-sm"
+        className="relative grid grid-cols-2 gap-1.5 rounded-[1.75rem] border border-ink/10 bg-background/80 p-1.5 shadow-[0_24px_50px_-28px_rgba(60,20,10,0.45)] backdrop-blur"
       >
-        {(["maandelijks", "jaarlijks"] as const).map((k) => {
+        {opties.map(({ k, titel, sub, Icon }) => {
           const actief = facturatie === k;
           return (
             <button
@@ -613,28 +633,50 @@ function FacturatieKeuze({
               role="radio"
               aria-checked={actief}
               onClick={() => onChange(k)}
-              className="relative flex min-h-12 items-center gap-2 rounded-full px-6 text-base font-semibold"
+              className="group relative flex min-h-[4.5rem] items-center gap-3 rounded-[1.4rem] px-4 py-3 text-left transition-colors sm:px-5"
             >
               {actief && (
                 <motion.span
                   layoutId={`facturatie-${id}`}
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  className="absolute inset-0 rounded-full bg-ink"
+                  className="absolute inset-0 rounded-[1.4rem] bg-ink shadow-[0_12px_30px_-12px_rgba(30,12,6,0.6)]"
                 />
               )}
-              <span className={`relative ${actief ? "text-background" : "text-ink"}`}>
-                {k === "maandelijks" ? "Maandelijks" : "Jaarlijks"}
+              <span
+                className={`relative hidden h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors sm:flex ${
+                  actief
+                    ? "bg-background/15 text-background"
+                    : "bg-ink/5 text-ink group-hover:bg-ink/10"
+                }`}
+              >
+                <Icon className="h-5 w-5" aria-hidden />
               </span>
-              {k === "jaarlijks" && (
-                <span className="relative rounded-full bg-accent-deep px-2 py-0.5 text-xs font-semibold text-white">
-                  −{KORTING_PCT}%
+              <span className="relative min-w-0">
+                <span
+                  className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-base font-semibold ${
+                    actief ? "text-background" : "text-ink"
+                  }`}
+                >
+                  {titel}
+                  {k === "jaarlijks" && (
+                    <span className="rounded-full bg-accent-deep px-2 py-0.5 text-xs font-semibold text-white">
+                      −{KORTING_PCT}%
+                    </span>
+                  )}
                 </span>
-              )}
+                <span
+                  className={`mt-0.5 block text-xs leading-snug ${
+                    actief ? "text-background/70" : "text-ink-soft"
+                  }`}
+                >
+                  {sub}
+                </span>
+              </span>
             </button>
           );
         })}
       </div>
-      <p className="mt-3 max-w-2xl text-sm text-ink-soft">
+      <p className="mt-3 text-sm text-ink-soft">
         {facturatie === "jaarlijks"
           ? `Je betaalt 12 maanden vooruit en krijgt ${KORTING_PCT}% korting. De voorwaarden voor jaarlijks betalen leggen we vast in de offerte.`
           : "Maandelijks opzegbaar met een opzegtermijn van 1 maand."}

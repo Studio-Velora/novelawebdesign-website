@@ -296,4 +296,4 @@ html.lenis body {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: none; }
 }
-.paneel-in { animation: paneel-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.paneel-in { animation: paneel-in 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
